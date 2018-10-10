@@ -88,6 +88,7 @@
 		B0D30B00216D5B2800444765 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B0D30B02216D5B2800444765 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B0D30B13216D5C6A00444765 /* FaceScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FaceScene.sks; sourceTree = "<group>"; };
+		B0EB72E3216E3C350098CF27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +112,7 @@
 		B0D30AC7216D5B2500444765 = {
 			isa = PBXGroup;
 			children = (
+				B0EB72E3216E3C350098CF27 /* README.md */,
 				B0D30AD2216D5B2500444765 /* SpriteKitWatchFace */,
 				B0D30AEA216D5B2700444765 /* SpriteKitWatchFace WatchKit App */,
 				B0D30AF9216D5B2700444765 /* SpriteKitWatchFace WatchKit Extension */,
