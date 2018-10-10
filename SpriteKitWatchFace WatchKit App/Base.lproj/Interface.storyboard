@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14313.18" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="OkN-RN-cDt">
+    <device id="watch44" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14238.10"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="T5s-0O-weS">
+            <objects>
+                <controller spacing="0.0" fullScreen="YES" id="OkN-RN-cDt" customClass="InterfaceController">
+                    <items>
+                        <group width="1" alignment="left" spacing="0.0" id="r4w-8v-T2Z">
+                            <items>
+                                <spriteKitScene width="184" height="224" alignment="center" preferredFramesPerSecond="60" scene="FaceScene.sks" id="Vbc-Dd-smI"/>
+                            </items>
+                            <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                        </group>
+                    </items>
+                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                    <connections>
+                        <outlet property="scene" destination="Vbc-Dd-smI" id="Is8-Wc-8BM"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="-43.608695652173914" y="-49.330357142857146"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+</document>
