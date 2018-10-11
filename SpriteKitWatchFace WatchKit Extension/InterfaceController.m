@@ -28,7 +28,7 @@
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
 	
-	FaceScene *scene = (SKScene *)[FaceScene nodeWithFileNamed:@"FaceScene"];
+	FaceScene *scene = [FaceScene nodeWithFileNamed:@"FaceScene"];
 
 	[self.scene presentScene:scene];
 }

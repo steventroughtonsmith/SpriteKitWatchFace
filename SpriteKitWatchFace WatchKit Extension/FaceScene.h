@@ -16,7 +16,10 @@ typedef enum : NSUInteger {
 	ThemeNavy,
 	ThemeTidepod,
 	ThemeBretonnia,
-	ThemeNoir
+	ThemeNoir,
+	ThemeContrast,
+	ThemeVictoire,
+	ThemeLiquid
 } Theme;
 
 @interface FaceScene : SKScene <SKSceneDelegate>
@@ -29,6 +32,9 @@ typedef enum : NSUInteger {
 @property SKColor *inlayColor;
 @property SKColor *markColor;
 @property SKColor *textColor;
+
+@property BOOL useProgrammaticLayout;
+@property BOOL useRoundFace;
 
 @end
 
