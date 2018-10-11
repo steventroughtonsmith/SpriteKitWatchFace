@@ -19,18 +19,42 @@ typedef enum : NSUInteger {
 	ThemeNoir,
 	ThemeContrast,
 	ThemeVictoire,
-	ThemeLiquid
+	ThemeLiquid,
+	ThemeAngler,
+	ThemeSculley,
+	ThemeKitty,
+	ThemeDelay,
+	ThemeDiesel,
+	ThemeLuxe
 } Theme;
+
+typedef enum : NSUInteger {
+	NumeralStyleAll,
+	NumeralStyleCardinal,
+	NumeralStyleNone
+} NumeralStyle;
+
+typedef enum : NSUInteger {
+	TickmarkStyleAll,
+	TickmarkStyleMajor,
+	TickmarkStyleMinor,
+	TickmarkStyleNone
+} TickmarkStyle;
 
 @interface FaceScene : SKScene <SKSceneDelegate>
 
 @property Theme theme;
+@property NumeralStyle numeralStyle;
+@property TickmarkStyle tickmarkStyle;
 
 @property SKColor *lightColor;
 @property SKColor *darkColor;
 @property SKColor *handColor;
+@property SKColor *secondHandColor;
 @property SKColor *inlayColor;
-@property SKColor *markColor;
+@property SKColor *majorMarkColor;
+@property SKColor *minorMarkColor;
+
 @property SKColor *textColor;
 
 @property BOOL useProgrammaticLayout;
