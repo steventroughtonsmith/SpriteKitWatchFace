@@ -59,7 +59,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	self = [super initWithCoder:coder];
 	if (self) {
 		
-		self.theme = ThemeHermesPink;
+		self.theme = ThemeNavy;
 		self.useProgrammaticLayout = YES;
 		self.useRoundFace = YES;
 		
@@ -157,18 +157,26 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	for (int i = 0; i < 60; i++)
 	{
 		
-		CGFloat angle = - (2*M_PI)/60.0 * i;
+		CGFloat angle =  (2*M_PI)/60.0 * i;
 		CGFloat workingRadius = workingRadiusForFaceOfSizeWithAngle(faceSize, angle);
 		CGFloat shortTickHeight = workingRadius/20;
 		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.markColor size:CGSizeMake(1, shortTickHeight)];
 		
+		/* Super hacky hack to inset the tickmarks at the four corners of a curved display instead of doing math */
+		if (i == 6 || i == 7  || i == 23 || i == 24 || i == 36 || i == 37 || i == 53 || i == 54)
+		{
+			workingRadius -= 8;
+		}
+
 		tick.position = CGPointZero;
 		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/shortTickHeight);
 		tick.zRotation = angle;
 		
 		tick.zPosition = 0;
 		if (i % 5 != 0)
+		{
 			[self addChild:tick];
+		}
 	}
 	
 	/* Numerals */
