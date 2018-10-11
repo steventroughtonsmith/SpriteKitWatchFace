@@ -12,44 +12,6 @@
 #define NSFont UIFont
 #endif
 
-CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
-{
-	CGFloat faceHeight = faceSize.height;
-	CGFloat faceWidth = faceSize.width;
-	
-	CGFloat workingRadius = 0;
-	
-	double vx = cos(angle);
-	double vy = sin(angle);
-	
-	double x1 = 0;
-	double y1 = 0;
-	double x2 = faceHeight;
-	double y2 = faceWidth;
-	double px = faceHeight/2;
-	double py = faceWidth/2;
-	
-	double t[4];
-	double smallestT = 1000;
-	
-	t[0]=(x1-px)/vx;
-	t[1]=(x2-px)/vx;
-	t[2]=(y1-py)/vy;
-	t[3]=(y2-py)/vy;
-	
-	for (int m = 0; m < 4; m++)
-	{
-		double currentT = t[m];
-		
-		if (currentT > 0 && currentT < smallestT)
-			smallestT = currentT;
-	}
-	
-	workingRadius = smallestT;
-	
-	return workingRadius;
-}
-
 @implementation FaceScene
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -59,7 +21,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		self.theme = ThemeHermesPink;
 		self.useProgrammaticLayout = YES;
-		self.useRoundFace = YES;
+		self.useRoundFace = NO;
 		
 		[self setupColors];
 		[self setupScene];
@@ -132,41 +94,64 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	CGFloat labelXMargin = 24.0;
 
 	CGSize faceSize = (CGSize){184, 224};
+    CGFloat cornerRadius = 16;
+    
+    CGFloat workingRadius = faceSize.width/2;
+    CGFloat longTickHeight = workingRadius/10.;
+    CGFloat shortTickHeight = workingRadius/20.;
+    
+    /* Major */
+    SKCropNode *majorTicksLayer = [[SKCropNode alloc] init];
+    majorTicksLayer.position = CGPointZero;
+    majorTicksLayer.zPosition = 0;
+    
+    SKShapeNode *majorTicksMask = [SKShapeNode shapeNodeWithRectOfSize:CGSizeMake(faceSize.width - margin*2. - longTickHeight, faceSize.height - margin*2. - longTickHeight) cornerRadius:cornerRadius - margin - longTickHeight/2.];
+    majorTicksMask.lineWidth = longTickHeight;
+    majorTicksMask.strokeColor = [SKColor colorWithWhite:1 alpha:1];
+    majorTicksMask.position = CGPointZero;
+    majorTicksMask.antialiased = NO;
+    
+    majorTicksLayer.maskNode = majorTicksMask;
+    [self addChild:majorTicksLayer];
 	
-	/* Major */
 	for (int i = 0; i < 12; i++)
 	{
-		CGFloat angle = -(2*M_PI)/12.0 * i;
-		CGFloat workingRadius = workingRadiusForFaceOfSizeWithAngle(faceSize, angle);
-		CGFloat longTickHeight = workingRadius/10.0;
-		
-		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.markColor size:CGSizeMake(2, longTickHeight)];
-		
-		tick.position = CGPointZero;
-		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/longTickHeight);
-		tick.zRotation = angle;
-		
-		tick.zPosition = 0;
-		
-		[self addChild:tick];
+        CGFloat angle = -(2*M_PI)/12.0 * i;
+        
+        SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.markColor size:CGSizeMake(2, workingRadius)];
+        
+        tick.position = CGPointZero;
+        tick.anchorPoint = CGPointMake(0.5, 1.5);
+        tick.zRotation = angle;
+        
+        [majorTicksLayer addChild:tick];
 	}
 	
 	/* Minor */
+    SKCropNode *minorTicksLayer = [[SKCropNode alloc] init];
+    minorTicksLayer.position = CGPointZero;
+    minorTicksLayer.zPosition = 0;
+    
+    SKShapeNode *minorTicksMask = [SKShapeNode shapeNodeWithRectOfSize:CGSizeMake(faceSize.width - margin*2. - shortTickHeight, faceSize.height - margin*2. - shortTickHeight) cornerRadius:cornerRadius - margin - shortTickHeight/2.];
+    minorTicksMask.lineWidth = shortTickHeight;
+    minorTicksMask.strokeColor = [SKColor colorWithWhite:1 alpha:1];
+    minorTicksMask.position = CGPointZero;
+    minorTicksMask.antialiased = NO;
+    
+    minorTicksLayer.maskNode = minorTicksMask;
+    [self addChild:minorTicksLayer];
+    
 	for (int i = 0; i < 60; i++)
 	{
-		
 		CGFloat angle = - (2*M_PI)/60.0 * i;
-		CGFloat workingRadius = workingRadiusForFaceOfSizeWithAngle(faceSize, angle);
-		CGFloat shortTickHeight = workingRadius/20;
-		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.markColor size:CGSizeMake(1, shortTickHeight)];
+		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.markColor size:CGSizeMake(1, workingRadius)];
 		
 		tick.position = CGPointZero;
-		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/shortTickHeight);
+        tick.anchorPoint = CGPointMake(0.5, 1.5);
 		tick.zRotation = angle;
 		
-		tick.zPosition = 0;
 		if (i % 5 != 0)
-			[self addChild:tick];
+			[minorTicksLayer addChild:tick];
 	}
 	
 	/* Numerals */
