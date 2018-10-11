@@ -59,7 +59,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	self = [super initWithCoder:coder];
 	if (self) {
 		
-		self.theme = ThemeHermesPink;
+		self.theme = ThemeDelay;
 		self.useProgrammaticLayout = YES;
 		self.useRoundFace = YES;
 		self.numeralStyle = NumeralStyleAll;
