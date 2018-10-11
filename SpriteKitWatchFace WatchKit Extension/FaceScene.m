@@ -22,10 +22,11 @@ BOOL vectorDisplay = YES;
 {
 	self = [super initWithCoder:coder];
 	if (self) {
-		[self setupColors];
 		
-		if (vectorDisplay)
-			[self setupTickmarks];
+		self.theme = ThemeHermesPink;
+		
+		[self setupColors];
+		[self setupScene];
 		
 		self.delegate = self;
 	}
@@ -43,15 +44,13 @@ BOOL vectorDisplay = YES;
 	CGFloat faceWidth = 184;
 	CGFloat faceHeight = 224;
 
-	SKColor *accentColor = [SKColor colorWithRed:0.831 green:0.540 blue:0.612 alpha:1];
-
 	for (int i = 0; i < 12; i++)
 	{
 		CGFloat angle = -(2*M_PI)/12.0 * i;
 		CGFloat workingRadius = faceWidth/2;
 		CGFloat longTickHeight = workingRadius/15;
 		
-		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:accentColor size:CGSizeMake(2, longTickHeight)];
+		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.markColor size:CGSizeMake(2, longTickHeight)];
 		
 		tick.position = CGPointZero;
 		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/longTickHeight);
@@ -61,7 +60,7 @@ BOOL vectorDisplay = YES;
 		
 		CGFloat h = 25;
 		
-		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h], NSForegroundColorAttributeName : [SKColor whiteColor]};
+		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h], NSForegroundColorAttributeName : self.textColor};
 		
 		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", i == 0 ? 12 : i] attributes:attribs];
 		
@@ -76,7 +75,7 @@ BOOL vectorDisplay = YES;
 		CGFloat angle = - (2*M_PI)/60.0 * i;
 		CGFloat workingRadius = faceWidth/2;
 		CGFloat shortTickHeight = workingRadius/20;
-		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:accentColor size:CGSizeMake(1, shortTickHeight)];
+		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.markColor size:CGSizeMake(1, shortTickHeight)];
 		
 		tick.position = CGPointZero;
 		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/shortTickHeight);
@@ -94,13 +93,91 @@ BOOL vectorDisplay = YES;
 	numbersLayer.alpha = 0;
 }
 
-
 -(void)setupColors
 {
-	SKColor *lightColor = [SKColor colorWithRed:0.848 green:0.187 blue:0.349 alpha:1];
-	SKColor *darkColor = [SKColor colorWithRed:0.387 green:0.226 blue:0.270 alpha:1];
-	SKColor *accentColor = [SKColor colorWithRed:0.831 green:0.540 blue:0.612 alpha:1];
+	SKColor *lightColor = nil;
+	SKColor *darkColor = nil;
+	SKColor *markColor = nil;
+	SKColor *inlayColor = nil;
+	SKColor *handColor = nil;
+	SKColor *textColor = nil;
 	
+	switch (self.theme) {
+		case ThemeHermesPink:
+		{
+			lightColor = [SKColor colorWithRed:0.848 green:0.187 blue:0.349 alpha:1];
+			darkColor = [SKColor colorWithRed:0.387 green:0.226 blue:0.270 alpha:1];
+			markColor = [SKColor colorWithRed:0.831 green:0.540 blue:0.612 alpha:1];
+			inlayColor = lightColor;
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor whiteColor];
+			break;
+		}
+		case ThemeHermesOrange:
+		{
+			lightColor = [SKColor colorWithRed:0.892 green:0.825 blue:0.745 alpha:1.000];
+			darkColor = [SKColor colorWithRed:0.118 green:0.188 blue:0.239 alpha:1.000];
+			inlayColor = [SKColor colorWithRed:1.000 green:0.450 blue:0.136 alpha:1.000];
+			markColor = [inlayColor colorWithAlphaComponent:0.5];
+			handColor = [SKColor whiteColor];
+			textColor = inlayColor;
+			break;
+		}
+		case ThemeNavy:
+		{
+			lightColor = [SKColor colorWithRed:0.067 green:0.471 blue:0.651 alpha:1.000];
+			darkColor = [SKColor colorWithRed:0.118 green:0.188 blue:0.239 alpha:1.000];
+			inlayColor = lightColor;
+			markColor = [SKColor whiteColor];
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor whiteColor];
+			break;
+		}
+		case ThemeTidepod:
+		{
+			lightColor = [SKColor colorWithRed:1.000 green:0.450 blue:0.136 alpha:1.000];
+			darkColor = [SKColor colorWithRed:0.067 green:0.471 blue:0.651 alpha:1.000];
+			inlayColor = [SKColor colorWithRed:0.953 green:0.569 blue:0.196 alpha:1.000];
+			markColor = [SKColor whiteColor];
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor whiteColor];
+			break;
+		}
+		case ThemeBretonnia:
+		{
+			lightColor = [SKColor colorWithRed:0.067 green:0.420 blue:0.843 alpha:1.000];
+			darkColor = [SKColor colorWithRed:0.956 green:0.137 blue:0.294 alpha:1.000];
+			inlayColor = darkColor;
+			markColor = [SKColor whiteColor];
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor whiteColor];
+			break;
+		}
+		case ThemeNoir:
+		{
+			lightColor = [SKColor colorWithWhite:0.3 alpha:1.0];
+			darkColor = [SKColor blackColor];
+			inlayColor = darkColor;
+			markColor = [SKColor whiteColor];
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor whiteColor];
+			break;
+		}
+			
+		default:
+			break;
+	}
+	
+	self.lightColor = lightColor;
+	self.darkColor = darkColor;
+	self.markColor = markColor;
+	self.inlayColor = inlayColor;
+	self.textColor = textColor;
+	self.handColor = handColor;
+}
+
+-(void)setupScene
+{
 	SKNode *face = [self childNodeWithName:@"Face"];
 	
 	SKSpriteNode *hourHand = (SKSpriteNode *)[face childNodeWithName:@"Hours"];
@@ -113,28 +190,31 @@ BOOL vectorDisplay = YES;
 	SKSpriteNode *colorRegion = (SKSpriteNode *)[face childNodeWithName:@"Color Region"];
 	SKSpriteNode *numbers = (SKSpriteNode *)[face childNodeWithName:@"Numbers"];
 	
-	hourHand.color = [SKColor whiteColor];
+	hourHand.color = self.handColor;
 	hourHand.colorBlendFactor = 1.0;
 	
-	minuteHand.color = [SKColor whiteColor];
+	minuteHand.color = self.handColor;
 	minuteHand.colorBlendFactor = 1.0;
 	
-	secondHand.color = accentColor;
+	secondHand.color = self.markColor;
 	secondHand.colorBlendFactor = 1.0;
 	
-	self.backgroundColor = darkColor;
+	self.backgroundColor = self.darkColor;
 	
-	colorRegion.color = lightColor;
+	colorRegion.color = self.lightColor;
 	colorRegion.colorBlendFactor = 1.0;
 	
-	numbers.color = accentColor;
+	numbers.color = self.textColor;
 	numbers.colorBlendFactor = 1.0;
 	
-	hourHandInlay.color = lightColor;
+	hourHandInlay.color = self.inlayColor;
 	hourHandInlay.colorBlendFactor = 1.0;
 	
-	minuteHandInlay.color = lightColor;
+	minuteHandInlay.color = self.inlayColor;
 	minuteHandInlay.colorBlendFactor = 1.0;
+	
+	if (vectorDisplay)
+		[self setupTickmarks];
 }
 
 - (void)update:(NSTimeInterval)currentTime forScene:(SKScene *)scene

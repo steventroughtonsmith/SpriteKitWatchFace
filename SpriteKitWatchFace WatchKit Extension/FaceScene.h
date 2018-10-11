@@ -10,8 +10,30 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef enum : NSUInteger {
+	ThemeHermesPink,
+	ThemeHermesOrange,
+	ThemeNavy,
+	ThemeTidepod,
+	ThemeBretonnia,
+	ThemeNoir
+} Theme;
+
 @interface FaceScene : SKScene <SKSceneDelegate>
 
+@property Theme theme;
+
+@property SKColor *lightColor;
+@property SKColor *darkColor;
+@property SKColor *handColor;
+@property SKColor *inlayColor;
+@property SKColor *markColor;
+@property SKColor *textColor;
+
 @end
+
+
+
+
 
 NS_ASSUME_NONNULL_END
