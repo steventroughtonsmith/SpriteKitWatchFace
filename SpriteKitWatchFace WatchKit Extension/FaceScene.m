@@ -12,6 +12,8 @@
 #define NSFont UIFont
 #endif
 
+#define PREPARE_SCREENSHOT 0
+
 CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 {
 	CGFloat faceHeight = faceSize.height;
@@ -374,7 +376,11 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 
 -(void)updateHands
 {
+#if PREPARE_SCREENSHOT
+	NSDate *now = [NSDate dateWithTimeIntervalSince1970:32760+27]; // 10:06:27am
+#else
 	NSDate *now = [NSDate date];
+#endif
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond| NSCalendarUnitNanosecond) fromDate:now];
 	
