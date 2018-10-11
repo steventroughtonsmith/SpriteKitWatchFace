@@ -320,14 +320,14 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeVictoire:
 		{
-			lightColor = [SKColor colorWithRed:0.937 green:0.925 blue:0.871 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.737 green:0.725 blue:0.671 alpha:1.000];
-			inlayColor = lightColor;
-			majorMarkColor = [SKColor colorWithRed:0.337 green:0.325 blue:0.271 alpha:1.000];
+			lightColor = [SKColor colorWithRed:0.749 green:0.291 blue:0.319 alpha:1.000];
+			darkColor = [SKColor colorWithRed:0.391 green:0.382 blue:0.340 alpha:1.000];
+			inlayColor = [SKColor colorWithRed:0.649 green:0.191 blue:0.219 alpha:1.000];
+			majorMarkColor = [SKColor colorWithRed:0.937 green:0.925 blue:0.871 alpha:1.000];
 			minorMarkColor = majorMarkColor;
-			handColor = [SKColor blackColor];
-			textColor = [SKColor colorWithRed:0.137 green:0.125 blue:0.071 alpha:1.000];
-			secondHandColor = majorMarkColor;
+			handColor = majorMarkColor;
+			textColor = majorMarkColor;
+			secondHandColor = [SKColor colorWithRed:0.949 green:0.491 blue:0.619 alpha:1.000];
 			break;
 		}
 		case ThemeLiquid:
