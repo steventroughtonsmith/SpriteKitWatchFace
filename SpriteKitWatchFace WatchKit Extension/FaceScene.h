@@ -30,7 +30,11 @@ typedef enum : NSUInteger {
 	ThemeBondi,
 	ThemeTangerine,
 	ThemeStrawberry,
-	ThemeMarble,
+	ThemePawn,
+	ThemeRoyal,
+	ThemeMarques,
+	ThemeVox,
+	ThemeSummer,
 	ThemeMAX
 } Theme;
 
@@ -72,6 +76,7 @@ typedef enum : NSUInteger {
 @property BOOL useProgrammaticLayout;
 @property BOOL useRoundFace;
 @property BOOL useMasking;
+@property BOOL showDate;
 
 @property CGSize faceSize;
 

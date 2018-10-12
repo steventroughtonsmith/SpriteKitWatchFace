@@ -28,6 +28,8 @@
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
 	
+	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"Theme":@(ThemeMarques)}];
+
 	FaceScene *scene = [FaceScene nodeWithFileNamed:@"FaceScene"];
 	
 	CGSize currentDeviceSize = [WKInterfaceDevice currentDevice].screenBounds.size;

@@ -60,12 +60,14 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	self = [super initWithCoder:coder];
 	if (self) {
 		
-		self.theme = ThemeMarble;
+		self.faceSize = (CGSize){184, 224};
+
+		self.theme = [[NSUserDefaults standardUserDefaults] integerForKey:@"Theme"];
 		self.useProgrammaticLayout = YES;
 		self.useRoundFace = YES;
 		self.numeralStyle = NumeralStyleAll;
 		self.tickmarkStyle = TickmarkStyleAll;
-		self.faceSize = (CGSize){184, 224};
+		self.showDate = YES;
 		
 		[self refreshTheme];
 		
@@ -130,6 +132,24 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 			if (i % 5 != 0)
 				[faceMarkings addChild:tick];
 		}
+	}
+	
+	if (self.showDate)
+	{
+		NSDateFormatter * df = [[NSDateFormatter alloc] init];
+		[df setLocale:[[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] firstObject]]];
+		[df setDateFormat:@"ccc d"];
+		
+		CGFloat h = 12;
+		
+		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
+		
+		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[df stringFromDate:[NSDate date]] attributes:attribs];
+		
+		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
+		numberLabel.position = CGPointMake(32, -4);
+		
+		[faceMarkings addChild:numberLabel];
 	}
 
 	[self addChild:faceMarkings];
@@ -223,6 +243,24 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		if (self.numeralStyle == NumeralStyleAll || ((self.numeralStyle == NumeralStyleCardinal) && (i % 3 == 0)))
 			[labelNode addChild:numberLabel];
+	}
+	
+	if (self.showDate)
+	{
+		NSDateFormatter * df = [[NSDateFormatter alloc] init];
+		[df setLocale:[[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] firstObject]]];
+		[df setDateFormat:@"ccc d"];
+		
+		CGFloat h = 12;
+		
+		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
+		
+		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[df stringFromDate:[NSDate date]] attributes:attribs];
+		
+		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
+		numberLabel.position = CGPointMake(32, -4);
+		
+		[faceMarkings addChild:numberLabel];
 	}
 	
 	[self addChild:faceMarkings];
@@ -494,7 +532,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 			self.useMasking = YES;
 			break;
 		}
-		case ThemeMarble:
+		case ThemePawn:
 		{
 			colorRegionColor = [SKColor colorWithRed:0.196 green:0.329 blue:0.275 alpha:1.000];
 			faceBackgroundColor = [SKColor colorWithRed:0.846 green:0.847 blue:0.757 alpha:1.000];
@@ -508,6 +546,78 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 			alternateTextColor = colorRegionColor;
 			alternateMinorMarkColor = colorRegionColor;
 			alternateMajorMarkColor = colorRegionColor;
+			
+			self.useMasking = YES;
+			break;
+		}
+		case ThemeRoyal:
+		{
+			colorRegionColor = [SKColor colorWithRed:0.118 green:0.188 blue:0.239 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithWhite:0.9 alpha:1.0];
+			inlayColor = colorRegionColor;
+			majorMarkColor = [SKColor colorWithRed:0.318 green:0.388 blue:0.539 alpha:1.000];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor colorWithWhite:0.9 alpha:1];
+			secondHandColor = [SKColor colorWithRed:0.912 green:0.198 blue:0.410 alpha:1.000];
+			
+			alternateTextColor = [SKColor colorWithRed:0.218 green:0.288 blue:0.439 alpha:1.000];
+			alternateMinorMarkColor = alternateTextColor;
+			alternateMajorMarkColor = alternateTextColor;
+			
+			self.useMasking = YES;
+			break;
+		}
+		case ThemeMarques:
+		{
+			colorRegionColor = [SKColor colorWithRed:0.886 green:0.141 blue:0.196 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.145 green:0.157 blue:0.176 alpha:1.000];
+			inlayColor = colorRegionColor;
+			majorMarkColor = [SKColor colorWithWhite:1 alpha:0.8];
+			minorMarkColor = [faceBackgroundColor colorWithAlphaComponent:0.5];
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor colorWithWhite:1 alpha:1];
+			secondHandColor = [SKColor colorWithWhite:0.9 alpha:1];
+			
+			alternateTextColor = textColor;
+			alternateMinorMarkColor = [colorRegionColor colorWithAlphaComponent:0.5];
+			alternateMajorMarkColor = [SKColor colorWithWhite:1 alpha:0.8];
+			
+			self.useMasking = YES;
+			break;
+		}
+		case ThemeVox:
+		{
+			colorRegionColor = [SKColor colorWithRed:0.914 green:0.086 blue:0.549 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.224 green:0.204 blue:0.565 alpha:1.000];
+			inlayColor = faceBackgroundColor;
+			majorMarkColor = [SKColor colorWithRed:0.324 green:0.304 blue:0.665 alpha:1.000];
+			minorMarkColor = [SKColor colorWithWhite:0.831 alpha:0.5];
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor colorWithWhite:1 alpha:1.000];
+			secondHandColor = [SKColor colorWithRed:0.914 green:0.486 blue:0.949 alpha:1.000];
+			
+			alternateTextColor = [SKColor colorWithWhite:1 alpha:1.000];
+			alternateMinorMarkColor = [SKColor colorWithWhite:0.831 alpha:0.5];
+			alternateMajorMarkColor = [SKColor colorWithRed:0.914 green:0.086 blue:0.549 alpha:1.000];
+			
+			self.useMasking = YES;
+			break;
+		}
+		case ThemeSummer:
+		{
+			colorRegionColor = [SKColor colorWithRed:0.969 green:0.796 blue:0.204 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.949 green:0.482 blue:0.188 alpha:1.000];
+			inlayColor = faceBackgroundColor;
+			majorMarkColor = [SKColor whiteColor];
+			minorMarkColor = [SKColor colorWithRed:0.267 green:0.278 blue:0.271 alpha:0.3];
+			handColor = [SKColor colorWithRed:0.467 green:0.478 blue:0.471 alpha:1.000];
+			textColor = [SKColor colorWithRed:0.949 green:0.482 blue:0.188 alpha:1.000];
+			secondHandColor = [SKColor colorWithRed:0.649 green:0.282 blue:0.188 alpha:1.000];
+			
+			alternateTextColor = [SKColor whiteColor];
+			alternateMinorMarkColor = minorMarkColor;
+			alternateMajorMarkColor = majorMarkColor;
 			
 			self.useMasking = YES;
 			break;
@@ -657,6 +767,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 
 -(void)refreshTheme
 {
+	[[NSUserDefaults standardUserDefaults] setInteger:self.theme forKey:@"Theme"];
+	
 	SKNode *existingMarkings = [self childNodeWithName:@"Markings"];
 	SKNode *existingDualMaskMarkings = [self childNodeWithName:@"Markings Alternate"];
 
