@@ -68,6 +68,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		self.numeralStyle = NumeralStyleAll;
 		self.tickmarkStyle = TickmarkStyleAll;
 		self.showDate = YES;
+        self.showLogo = NO;
 		
 		[self refreshTheme];
 		
@@ -151,6 +152,20 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		[faceMarkings addChild:numberLabel];
 	}
+    
+    if (self.showLogo)
+    {
+        CGFloat h = 18;
+        
+        NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
+        
+        NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:@"" attributes:attribs];
+        
+        SKLabelNode *appleLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
+        appleLabel.position = CGPointMake(0, 23);
+        
+        [faceMarkings addChild:appleLabel];
+    }
 
 	[self addChild:faceMarkings];
 }
@@ -262,6 +277,20 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		[faceMarkings addChild:numberLabel];
 	}
+    
+    if (self.showLogo)
+    {
+        CGFloat h = 20;
+        
+        NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
+        
+        NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:@"" attributes:attribs];
+        
+        SKLabelNode *appleLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
+        appleLabel.position = CGPointMake(0, 31);
+        
+        [faceMarkings addChild:appleLabel];
+    }
 	
 	[self addChild:faceMarkings];
 }

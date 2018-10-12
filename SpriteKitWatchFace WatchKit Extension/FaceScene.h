@@ -77,6 +77,7 @@ typedef enum : NSUInteger {
 @property BOOL useRoundFace;
 @property BOOL useMasking;
 @property BOOL showDate;
+@property BOOL showLogo;
 
 @property CGSize faceSize;
 
