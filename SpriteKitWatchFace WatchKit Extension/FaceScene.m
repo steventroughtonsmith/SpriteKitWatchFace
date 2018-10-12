@@ -38,6 +38,7 @@
 
 #define PREPARE_SCREENSHOT 0
 
+// Adapted from https://www.particleincell.com/2013/cubic-line-intersection/
 NSArray<NSValue *> *intersectionBetweenCubicCurveAndLine(CGPoint curvePointA, CGPoint curvePointB, CGPoint curvePointC, CGPoint curvePointD, CGPoint linePointA, CGPoint linePointB)
 {
     CGFloat xAmB = linePointA.x - linePointB.x;
