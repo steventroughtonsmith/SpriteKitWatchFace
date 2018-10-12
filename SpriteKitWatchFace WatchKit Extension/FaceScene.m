@@ -325,7 +325,7 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
         tick.strokeColor = [SKColor clearColor];
         tick.position = CGPointZero;
         
-		    if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor)
+        if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor)
             [self addChild:tick];
 	}
     
@@ -360,11 +360,11 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
         CGPathCloseSubpath(tickPath);
 
         SKShapeNode *tick = [SKShapeNode shapeNodeWithPath:tickPath];
-        tick.fillColor = self.markColor;
+        tick.fillColor = self.minorMarkColor;
         tick.strokeColor = [SKColor clearColor];
         tick.position = CGPointZero;
         
-		    if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMinor)
+        if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMinor)
             [self addChild:tick];
     }
     
