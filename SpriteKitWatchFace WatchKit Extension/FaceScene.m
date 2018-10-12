@@ -10,9 +10,11 @@
 
 #if TARGET_OS_IPHONE
 #define NSFont UIFont
+#define NSFontWeightMedium UIFontWeightMedium
 #endif
 
-// Adapted from https://www.particleincell.com/2013/cubic-line-intersection/
+#define PREPARE_SCREENSHOT 0
+
 NSArray<NSValue *> *intersectionBetweenCubicCurveAndLine(CGPoint curvePointA, CGPoint curvePointB, CGPoint curvePointC, CGPoint curvePointD, CGPoint linePointA, CGPoint linePointB)
 {
     CGFloat xAmB = linePointA.x - linePointB.x;
@@ -204,9 +206,11 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 	self = [super initWithCoder:coder];
 	if (self) {
 		
-		self.theme = ThemeHermesPink;
+		self.theme = ThemeDelay;
 		self.useProgrammaticLayout = YES;
 		self.useRoundFace = NO;
+		self.numeralStyle = NumeralStyleAll;
+		self.tickmarkStyle = TickmarkStyleAll;
 		
 		[self setupColors];
 		[self setupScene];
@@ -233,24 +237,26 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 		CGFloat workingRadius = faceSize.width/2;
 		CGFloat longTickHeight = workingRadius/15;
 		
-		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.markColor size:CGSizeMake(2, longTickHeight)];
+		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.majorMarkColor size:CGSizeMake(2, longTickHeight)];
 		
 		tick.position = CGPointZero;
 		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/longTickHeight);
 		tick.zRotation = angle;
 		
-		[faceMarkings addChild:tick];
+		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor)
+			[faceMarkings addChild:tick];
 		
 		CGFloat h = 25;
 		
-		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h], NSForegroundColorAttributeName : self.textColor};
+		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
 		
 		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", i == 0 ? 12 : i] attributes:attribs];
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
 		numberLabel.position = CGPointMake((workingRadius-labelMargin) * -sin(angle), (workingRadius-labelMargin) * cos(angle) - 9);
 		
-		[faceMarkings addChild:numberLabel];
+		if (self.numeralStyle == NumeralStyleAll || ((self.numeralStyle == NumeralStyleCardinal) && (i % 3 == 0)))
+			[faceMarkings addChild:numberLabel];
 	}
 	
 	for (int i = 0; i < 60; i++)
@@ -258,15 +264,17 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 		CGFloat angle = - (2*M_PI)/60.0 * i;
 		CGFloat workingRadius = faceSize.width/2;
 		CGFloat shortTickHeight = workingRadius/20;
-		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.markColor size:CGSizeMake(1, shortTickHeight)];
+		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.minorMarkColor size:CGSizeMake(1, shortTickHeight)];
 		
 		tick.position = CGPointZero;
 		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/shortTickHeight);
 		tick.zRotation = angle;
 		
-		
-		if (i % 5 != 0)
-			[faceMarkings addChild:tick];
+		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMinor)
+		{
+			if (i % 5 != 0)
+				[faceMarkings addChild:tick];
+		}
 	}
 	
 	[self addChild:faceMarkings];
@@ -313,17 +321,17 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
         CGPathCloseSubpath(tickPath);
         
         SKShapeNode *tick = [SKShapeNode shapeNodeWithPath:tickPath];
-        tick.fillColor = self.markColor;
+        tick.fillColor = self.majorMarkColor;
         tick.strokeColor = [SKColor clearColor];
         tick.position = CGPointZero;
         
-        [self addChild:tick];
+		    if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor)
+            [self addChild:tick];
 	}
     
     CGPathRelease(largeTickInnerPath);
 	
 	/* Minor */
-    
     CGPathRef smallTickInnerPath = CGPathCreateWithRoundedRect(CGRectMake(margin + shortTickHeight - faceSize.width/2., margin + shortTickHeight - faceSize.height/2., faceSize.width - margin*2. - shortTickHeight*2., faceSize.height - margin*2. - shortTickHeight*2.), cornerRadius - margin - shortTickHeight, cornerRadius - margin - shortTickHeight, NULL);
     
     for (int i = 0; i < 60; i++)
@@ -355,8 +363,9 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
         tick.fillColor = self.markColor;
         tick.strokeColor = [SKColor clearColor];
         tick.position = CGPointZero;
-
-        [self addChild:tick];
+        
+		    if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMinor)
+            [self addChild:tick];
     }
     
     CGPathRelease(outerPath);
@@ -389,7 +398,8 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 		
 		numberLabel.position = CGPointMake(0, -9);
 		
-		[labelNode addChild:numberLabel];
+		if (self.numeralStyle == NumeralStyleAll || ((self.numeralStyle == NumeralStyleCardinal) && (i % 3 == 0)))
+			[labelNode addChild:numberLabel];
 	}
 }
 
@@ -397,20 +407,24 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 {
 	SKColor *lightColor = nil;
 	SKColor *darkColor = nil;
-	SKColor *markColor = nil;
+	SKColor *majorMarkColor = nil;
+	SKColor *minorMarkColor = nil;
 	SKColor *inlayColor = nil;
 	SKColor *handColor = nil;
 	SKColor *textColor = nil;
-	
+	SKColor *secondHandColor = nil;
+
 	switch (self.theme) {
 		case ThemeHermesPink:
 		{
 			lightColor = [SKColor colorWithRed:0.848 green:0.187 blue:0.349 alpha:1];
 			darkColor = [SKColor colorWithRed:0.387 green:0.226 blue:0.270 alpha:1];
-			markColor = [SKColor colorWithRed:0.831 green:0.540 blue:0.612 alpha:1];
+			majorMarkColor = [SKColor colorWithRed:0.831 green:0.540 blue:0.612 alpha:1];
+			minorMarkColor = majorMarkColor;
 			inlayColor = lightColor;
 			handColor = [SKColor whiteColor];
 			textColor = [SKColor whiteColor];
+			secondHandColor = majorMarkColor;
 			break;
 		}
 		case ThemeHermesOrange:
@@ -418,9 +432,11 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 			lightColor = [SKColor colorWithRed:0.892 green:0.825 blue:0.745 alpha:1.000];
 			darkColor = [SKColor colorWithRed:0.118 green:0.188 blue:0.239 alpha:1.000];
 			inlayColor = [SKColor colorWithRed:1.000 green:0.450 blue:0.136 alpha:1.000];
-			markColor = [inlayColor colorWithAlphaComponent:0.5];
+			majorMarkColor = [inlayColor colorWithAlphaComponent:0.5];
+			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
 			textColor = inlayColor;
+			secondHandColor = majorMarkColor;
 			break;
 		}
 		case ThemeNavy:
@@ -428,9 +444,11 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 			lightColor = [SKColor colorWithRed:0.067 green:0.471 blue:0.651 alpha:1.000];
 			darkColor = [SKColor colorWithRed:0.118 green:0.188 blue:0.239 alpha:1.000];
 			inlayColor = lightColor;
-			markColor = [SKColor whiteColor];
+			majorMarkColor = [SKColor whiteColor];
+			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
 			textColor = [SKColor whiteColor];
+			secondHandColor = majorMarkColor;
 			break;
 		}
 		case ThemeTidepod:
@@ -438,9 +456,11 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 			lightColor = [SKColor colorWithRed:1.000 green:0.450 blue:0.136 alpha:1.000];
 			darkColor = [SKColor colorWithRed:0.067 green:0.471 blue:0.651 alpha:1.000];
 			inlayColor = [SKColor colorWithRed:0.953 green:0.569 blue:0.196 alpha:1.000];
-			markColor = [SKColor whiteColor];
+			majorMarkColor = [SKColor whiteColor];
+			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
 			textColor = [SKColor whiteColor];
+			secondHandColor = majorMarkColor;
 			break;
 		}
 		case ThemeBretonnia:
@@ -448,9 +468,11 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 			lightColor = [SKColor colorWithRed:0.067 green:0.420 blue:0.843 alpha:1.000];
 			darkColor = [SKColor colorWithRed:0.956 green:0.137 blue:0.294 alpha:1.000];
 			inlayColor = darkColor;
-			markColor = [SKColor whiteColor];
+			majorMarkColor = [SKColor whiteColor];
+			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
 			textColor = [SKColor whiteColor];
+			secondHandColor = majorMarkColor;
 			break;
 		}
 		case ThemeNoir:
@@ -458,9 +480,11 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 			lightColor = [SKColor colorWithWhite:0.3 alpha:1.0];
 			darkColor = [SKColor blackColor];
 			inlayColor = darkColor;
-			markColor = [SKColor whiteColor];
+			majorMarkColor = [SKColor whiteColor];
+			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
 			textColor = [SKColor whiteColor];
+			secondHandColor = majorMarkColor;
 			break;
 		}
 		case ThemeContrast:
@@ -468,19 +492,23 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 			lightColor = [SKColor whiteColor];
 			darkColor = [SKColor whiteColor];
 			inlayColor = [SKColor whiteColor];
-			markColor = [SKColor blackColor];
+			majorMarkColor = [SKColor blackColor];
+			minorMarkColor = majorMarkColor;
 			handColor = [SKColor blackColor];
 			textColor = [SKColor blackColor];
+			secondHandColor = majorMarkColor;
 			break;
 		}
 		case ThemeVictoire:
 		{
-			lightColor = [SKColor colorWithRed:0.937 green:0.925 blue:0.871 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.737 green:0.725 blue:0.671 alpha:1.000];
-			inlayColor = lightColor;
-			markColor = [SKColor colorWithRed:0.337 green:0.325 blue:0.271 alpha:1.000];
-			handColor = [SKColor blackColor];
-			textColor = [SKColor colorWithRed:0.137 green:0.125 blue:0.071 alpha:1.000];
+			lightColor = [SKColor colorWithRed:0.749 green:0.291 blue:0.319 alpha:1.000];
+			darkColor = [SKColor colorWithRed:0.391 green:0.382 blue:0.340 alpha:1.000];
+			inlayColor = [SKColor colorWithRed:0.649 green:0.191 blue:0.219 alpha:1.000];
+			majorMarkColor = [SKColor colorWithRed:0.937 green:0.925 blue:0.871 alpha:1.000];
+			minorMarkColor = majorMarkColor;
+			handColor = majorMarkColor;
+			textColor = majorMarkColor;
+			secondHandColor = [SKColor colorWithRed:0.949 green:0.491 blue:0.619 alpha:1.000];
 			break;
 		}
 		case ThemeLiquid:
@@ -488,22 +516,97 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 			lightColor = [SKColor colorWithWhite:0.2 alpha:1.0];
 			darkColor = lightColor;
 			inlayColor = [SKColor colorWithWhite:0.3 alpha:1.0];
-			markColor = [SKColor colorWithWhite:0.5 alpha:1.0];
+			majorMarkColor = [SKColor colorWithWhite:0.5 alpha:1.0];
+			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
 			textColor = [SKColor whiteColor];
+			secondHandColor = majorMarkColor;
 			break;
 		}
-			
+		case ThemeAngler:
+		{
+			lightColor = [SKColor blackColor];
+			darkColor = [SKColor blackColor];
+			inlayColor = [SKColor colorWithRed:0.180 green:0.800 blue:0.482 alpha:1.000];
+			majorMarkColor = inlayColor;
+			minorMarkColor = majorMarkColor;
+			handColor = [inlayColor colorWithAlphaComponent:0.4];
+			textColor = inlayColor;
+			secondHandColor = majorMarkColor;
+			break;
+		}
+		case ThemeSculley:
+		{
+			lightColor = [SKColor colorWithRed:0.180 green:0.800 blue:0.482 alpha:1.000];
+			darkColor = [SKColor colorWithRed:0.180 green:0.600 blue:0.282 alpha:1.000];
+			inlayColor = [SKColor colorWithRed:0.180 green:0.800 blue:0.482 alpha:1.000];
+			majorMarkColor = [SKColor colorWithRed:0.080 green:0.300 blue:0.082 alpha:1.000];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor colorWithRed:0.080 green:0.300 blue:0.082 alpha:1.000];
+			textColor = [SKColor colorWithRed:0.080 green:0.300 blue:0.082 alpha:1.000];
+			secondHandColor = majorMarkColor;
+			break;
+		}
+		case ThemeKitty:
+		{
+			lightColor = [SKColor colorWithRed:0.447 green:0.788 blue:0.796 alpha:1.000];
+			darkColor = [SKColor colorWithRed:0.459 green:0.471 blue:0.706 alpha:1.000];
+			inlayColor = lightColor;
+			majorMarkColor = [SKColor colorWithRed:0.259 green:0.271 blue:0.506 alpha:1.000];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor colorWithRed:0.159 green:0.171 blue:0.406 alpha:1.000];
+			textColor = handColor;
+			secondHandColor = majorMarkColor;
+			break;
+		}
+		case ThemeDelay:
+		{
+			lightColor = [SKColor colorWithRed:0.941 green:0.408 blue:0.231 alpha:1.000];
+			darkColor = [SKColor colorWithWhite:0.282 alpha:1.000];
+			inlayColor = lightColor;
+			majorMarkColor = [SKColor colorWithRed:0.941 green:0.708 blue:0.531 alpha:1.000];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor whiteColor];
+			textColor = handColor;
+			secondHandColor = majorMarkColor;
+			break;
+		}
+		case ThemeDiesel:
+		{
+			lightColor = [SKColor colorWithRed:0.702 green:0.212 blue:0.231 alpha:1.000];
+			darkColor = [SKColor colorWithRed:0.027 green:0.251 blue:0.502 alpha:1.000];
+			inlayColor = [SKColor colorWithRed:0.502 green:0.212 blue:0.231 alpha:1.000];
+			majorMarkColor = [SKColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.8];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor whiteColor];
+			textColor = handColor;
+			secondHandColor = [SKColor colorWithRed:0.802 green:0.412 blue:0.431 alpha:1.000];
+			break;
+		}
+		case ThemeLuxe:
+		{
+			lightColor = [SKColor colorWithWhite:0.082 alpha:1.000];
+			darkColor = [SKColor colorWithWhite:0.082 alpha:1.000];
+			inlayColor = [SKColor colorWithRed:0.969 green:0.878 blue:0.780 alpha:1.000];
+			majorMarkColor = [SKColor colorWithRed:0.804 green:0.710 blue:0.639 alpha:1.000];
+			minorMarkColor = majorMarkColor;
+			handColor = majorMarkColor;
+			textColor = handColor;
+			secondHandColor = inlayColor;
+			break;
+		}
 		default:
 			break;
 	}
 	
 	self.lightColor = lightColor;
 	self.darkColor = darkColor;
-	self.markColor = markColor;
+	self.majorMarkColor = majorMarkColor;
+	self.minorMarkColor = minorMarkColor;
 	self.inlayColor = inlayColor;
 	self.textColor = textColor;
 	self.handColor = handColor;
+	self.secondHandColor = secondHandColor;
 }
 
 -(void)setupScene
@@ -526,7 +629,7 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 	minuteHand.color = self.handColor;
 	minuteHand.colorBlendFactor = 1.0;
 	
-	secondHand.color = self.markColor;
+	secondHand.color = self.secondHandColor;
 	secondHand.colorBlendFactor = 1.0;
 	
 	self.backgroundColor = self.darkColor;
@@ -567,7 +670,11 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 
 -(void)updateHands
 {
+#if PREPARE_SCREENSHOT
+	NSDate *now = [NSDate dateWithTimeIntervalSince1970:32760+27]; // 10:06:27am
+#else
 	NSDate *now = [NSDate date];
+#endif
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond| NSCalendarUnitNanosecond) fromDate:now];
 	
