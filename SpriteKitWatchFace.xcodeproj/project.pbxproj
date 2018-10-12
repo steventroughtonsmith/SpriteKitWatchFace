@@ -225,6 +225,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0D30B0D216D5B2800444765 /* Build configuration list for PBXNativeTarget "SpriteKitWatchFace" */;
 			buildPhases = (
+				FE965DE221702233008F96B7 /* Increment Build Number */,
 				B0D30ACC216D5B2500444765 /* Sources */,
 				B0D30ACD216D5B2500444765 /* Frameworks */,
 				B0D30ACE216D5B2500444765 /* Resources */,
@@ -244,6 +245,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0D30B09216D5B2800444765 /* Build configuration list for PBXNativeTarget "SpriteKitWatchFace WatchKit App" */;
 			buildPhases = (
+				FE965DE121702223008F96B7 /* Increment Build Number */,
 				B0D30AE4216D5B2700444765 /* Resources */,
 				B0D30B08216D5B2800444765 /* Embed App Extensions */,
 			);
@@ -261,6 +263,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0D30B05216D5B2800444765 /* Build configuration list for PBXNativeTarget "SpriteKitWatchFace WatchKit Extension" */;
 			buildPhases = (
+				FE965DE02170220A008F96B7 /* Increment Build Number */,
 				B0D30AF1216D5B2700444765 /* Sources */,
 				B0D30AF2216D5B2700444765 /* Frameworks */,
 				B0D30AF3216D5B2700444765 /* Resources */,
@@ -376,6 +379,63 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FE965DE02170220A008F96B7 /* Increment Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Increment Build Number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
+		};
+		FE965DE121702223008F96B7 /* Increment Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Increment Build Number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
+		};
+		FE965DE221702233008F96B7 /* Increment Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Increment Build Number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B0D30ACC216D5B2500444765 /* Sources */ = {
@@ -577,7 +637,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -598,7 +658,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -619,7 +679,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = "";
 				IBSC_MODULE = SpriteKitWatchFace_WatchKit_Extension;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace.watchkitapp;
@@ -636,7 +696,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = "";
 				IBSC_MODULE = SpriteKitWatchFace_WatchKit_Extension;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace.watchkitapp;
@@ -653,7 +713,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SpriteKitWatchFace/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -670,7 +730,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SpriteKitWatchFace/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -690,7 +750,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DesktopShim/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -711,7 +771,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DesktopShim/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
