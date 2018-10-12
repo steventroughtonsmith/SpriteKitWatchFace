@@ -211,6 +211,9 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 		self.useRoundFace = NO;
 		self.numeralStyle = NumeralStyleAll;
 		self.tickmarkStyle = TickmarkStyleAll;
+        
+        self.majorMarkSize = CGSizeMake(3, 9);
+        self.minorMarkSize = CGSizeMake(1, 4.5);
 		
 		[self setupColors];
 		[self setupScene];
@@ -290,12 +293,14 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
     CGFloat cornerRadius = 34;
     
     CGFloat workingRadius = sqrt(faceSize.width/2.*faceSize.width/2. + faceSize.height/2.*faceSize.height/2.);
-    CGFloat longTickHeight = round(faceSize.width/2./10.);
-    CGFloat shortTickHeight = longTickHeight/2.;
+    CGFloat majorMarkHeight = self.majorMarkSize.height;
+    CGFloat minorMarkHeight = self.minorMarkSize.height;
+    CGFloat majorMarkWidth = self.majorMarkSize.width/2.;
+    CGFloat minorMarkWidth = self.minorMarkSize.width/2.;
     
     CGPathRef outerPath = CGPathCreateWithRoundedRect(CGRectMake(margin - faceSize.width/2., margin - faceSize.height/2., faceSize.width - margin*2., faceSize.height - margin*2.), cornerRadius - margin, cornerRadius - margin, NULL);
     
-    CGPathRef largeTickInnerPath = CGPathCreateWithRoundedRect(CGRectMake(margin + longTickHeight - faceSize.width/2., margin + longTickHeight - faceSize.height/2., faceSize.width - margin*2. - longTickHeight*2., faceSize.height - margin*2. - longTickHeight*2.), cornerRadius - margin - longTickHeight, cornerRadius - margin - longTickHeight, NULL);
+    CGPathRef largeTickInnerPath = CGPathCreateWithRoundedRect(CGRectMake(margin + majorMarkHeight - faceSize.width/2., margin + majorMarkHeight - faceSize.height/2., faceSize.width - margin*2. - majorMarkHeight*2., faceSize.height - margin*2. - majorMarkHeight*2.), cornerRadius - margin - majorMarkHeight, cornerRadius - margin - majorMarkHeight, NULL);
 	
 	for (int i = 0; i < 12; i++)
 	{
@@ -303,10 +308,10 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
         
         CGAffineTransform rotation = CGAffineTransformMakeRotation(angle);
         
-        CGPoint lineLeftPointA = CGPointApplyAffineTransform(CGPointMake(-1, 0), rotation);
-        CGPoint lineLeftPointB = CGPointApplyAffineTransform(CGPointMake(-1, workingRadius), rotation);
-        CGPoint lineRightPointA = CGPointApplyAffineTransform(CGPointMake(1, 0), rotation);
-        CGPoint lineRightPointB = CGPointApplyAffineTransform(CGPointMake(1, workingRadius), rotation);
+        CGPoint lineLeftPointA = CGPointApplyAffineTransform(CGPointMake(-majorMarkWidth, 0), rotation);
+        CGPoint lineLeftPointB = CGPointApplyAffineTransform(CGPointMake(-majorMarkWidth, workingRadius), rotation);
+        CGPoint lineRightPointA = CGPointApplyAffineTransform(CGPointMake(majorMarkWidth, 0), rotation);
+        CGPoint lineRightPointB = CGPointApplyAffineTransform(CGPointMake(majorMarkWidth, workingRadius), rotation);
         
         CGPoint topLeft = intersectionBetweenPathAndLinePassingThroughPoints(outerPath, lineLeftPointA, lineLeftPointB);
         CGPoint topRight = intersectionBetweenPathAndLinePassingThroughPoints(outerPath, lineRightPointA, lineRightPointB);
@@ -334,7 +339,7 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
     CGPathRelease(largeTickInnerPath);
 	
 	/* Minor */
-    CGPathRef smallTickInnerPath = CGPathCreateWithRoundedRect(CGRectMake(margin + shortTickHeight - faceSize.width/2., margin + shortTickHeight - faceSize.height/2., faceSize.width - margin*2. - shortTickHeight*2., faceSize.height - margin*2. - shortTickHeight*2.), cornerRadius - margin - shortTickHeight, cornerRadius - margin - shortTickHeight, NULL);
+    CGPathRef smallTickInnerPath = CGPathCreateWithRoundedRect(CGRectMake(margin + minorMarkHeight - faceSize.width/2., margin + minorMarkHeight - faceSize.height/2., faceSize.width - margin*2. - minorMarkHeight*2., faceSize.height - margin*2. - minorMarkHeight*2.), cornerRadius - margin - minorMarkHeight, cornerRadius - margin - minorMarkHeight, NULL);
     
     for (int i = 0; i < 60; i++)
     {
@@ -344,10 +349,10 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
 
         CGAffineTransform rotation = CGAffineTransformMakeRotation(angle);
 
-        CGPoint lineLeftPointA = CGPointApplyAffineTransform(CGPointMake(-0.5, 0), rotation);
-        CGPoint lineLeftPointB = CGPointApplyAffineTransform(CGPointMake(-0.5, workingRadius), rotation);
-        CGPoint lineRightPointA = CGPointApplyAffineTransform(CGPointMake(0.5, 0), rotation);
-        CGPoint lineRightPointB = CGPointApplyAffineTransform(CGPointMake(0.5, workingRadius), rotation);
+        CGPoint lineLeftPointA = CGPointApplyAffineTransform(CGPointMake(-minorMarkWidth, 0), rotation);
+        CGPoint lineLeftPointB = CGPointApplyAffineTransform(CGPointMake(-minorMarkWidth, workingRadius), rotation);
+        CGPoint lineRightPointA = CGPointApplyAffineTransform(CGPointMake(minorMarkWidth, 0), rotation);
+        CGPoint lineRightPointB = CGPointApplyAffineTransform(CGPointMake(minorMarkWidth, workingRadius), rotation);
 
         CGPoint topLeft = intersectionBetweenPathAndLinePassingThroughPoints(outerPath, lineLeftPointA, lineLeftPointB);
         CGPoint topRight = intersectionBetweenPathAndLinePassingThroughPoints(outerPath, lineRightPointA, lineRightPointB);
