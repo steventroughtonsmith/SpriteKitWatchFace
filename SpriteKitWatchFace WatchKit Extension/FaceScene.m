@@ -11,6 +11,29 @@
 #if TARGET_OS_IPHONE
 #define NSFont UIFont
 #define NSFontWeightMedium UIFontWeightMedium
+
+@interface NSValue (NSPointSupport)
+
++ (NSValue *)valueWithPoint:(CGPoint)point;
+
+- (CGPoint)pointValue;
+
+@end
+
+@implementation NSValue (NSPointSupport)
+
++ (NSValue *)valueWithPoint:(CGPoint)point
+{
+    return [self valueWithCGPoint:point];
+}
+
+- (CGPoint)pointValue
+{
+    return self.CGPointValue;
+}
+
+@end
+
 #endif
 
 #define PREPARE_SCREENSHOT 0
@@ -184,10 +207,6 @@ NSArray<NSValue *> *intersectionsBetweenPathAndLinePassingThroughPoints(CGPathRe
             lastPoint = firstPoint;
         }
     });
-    
-    if (intersections.count == 0) {
-        NSLog(@"No intersections for %@ - %@", NSStringFromPoint(linePointA), NSStringFromPoint(linePointB));
-    }
     
     return intersections;
 }
