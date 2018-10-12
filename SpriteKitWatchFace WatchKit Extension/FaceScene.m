@@ -7,10 +7,19 @@
 //
 
 #import "FaceScene.h"
+@import CoreText;
 
 #if TARGET_OS_IPHONE
 #define NSFont UIFont
 #define NSFontWeightMedium UIFontWeightMedium
+
+#define NSFontFeatureTypeIdentifierKey UIFontFeatureTypeIdentifierKey
+#define NSFontFeatureSettingsAttribute UIFontDescriptorFeatureSettingsAttribute
+#define NSFontDescriptor UIFontDescriptor
+
+#define NSFontFeatureSelectorIdentifierKey UIFontFeatureSelectorIdentifierKey
+#define NSFontNameAttribute UIFontDescriptorNameAttribute
+
 #endif
 
 #define PREPARE_SCREENSHOT 0
@@ -52,6 +61,16 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	
 	return workingRadius;
 }
+
+@implementation NSFont (SmallCaps)
+-(NSFont *)smallCaps
+{
+	NSArray *settings = @[@{NSFontFeatureTypeIdentifierKey: @(kUpperCaseType), NSFontFeatureSelectorIdentifierKey: @(kUpperCaseSmallCapsSelector)}];
+	NSDictionary *attributes = @{NSFontFeatureSettingsAttribute: settings, NSFontNameAttribute: self.fontName};
+	
+	return [NSFont fontWithDescriptor:[NSFontDescriptor fontDescriptorWithFontAttributes:attributes] size:self.pointSize];
+}
+@end
 
 @implementation FaceScene
 
@@ -142,9 +161,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		CGFloat h = 12;
 		
-		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
+		NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
 		
-		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[df stringFromDate:[NSDate date]] attributes:attribs];
+		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[df stringFromDate:[NSDate date]] uppercaseString] attributes:attribs];
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
 		numberLabel.position = CGPointMake(32, -4);
@@ -253,9 +272,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		CGFloat h = 12;
 		
-		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
+		NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
 		
-		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[df stringFromDate:[NSDate date]] attributes:attribs];
+		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[df stringFromDate:[NSDate date]] uppercaseString] attributes:attribs];
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
 		numberLabel.position = CGPointMake(32, -4);
