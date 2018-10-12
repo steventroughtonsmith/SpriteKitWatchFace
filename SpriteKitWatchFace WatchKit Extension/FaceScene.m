@@ -13,7 +13,7 @@
 #define NSFontWeightMedium UIFontWeightMedium
 #endif
 
-#define PREPARE_SCREENSHOT 0
+#define PREPARE_SCREENSHOT 1
 
 CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 {
@@ -658,7 +658,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 -(void)refreshTheme
 {
 	SKNode *existingMarkings = [self childNodeWithName:@"Markings"];
-	SKNode *existingDualMaskMarkings = [self childNodeWithName:@"Markings 2"];
+	SKNode *existingDualMaskMarkings = [self childNodeWithName:@"Markings Alternate"];
 
 	[existingMarkings removeAllChildren];
 	[existingMarkings removeFromParent];
