@@ -10,6 +10,7 @@
 
 #if TARGET_OS_IPHONE
 #define NSFont UIFont
+#define NSFontWeightMedium UIFontWeightMedium
 #endif
 
 #define PREPARE_SCREENSHOT 0
@@ -101,7 +102,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		CGFloat h = 25;
 		
-		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h], NSForegroundColorAttributeName : self.textColor};
+		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
 		
 		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", i == 0 ? 12 : i] attributes:attribs];
 		
