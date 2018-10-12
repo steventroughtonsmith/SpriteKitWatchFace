@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 @import SpriteKit;
 
-@interface InterfaceController : WKInterfaceController <SKSceneDelegate>
+@interface InterfaceController : WKInterfaceController <SKSceneDelegate, WKCrownDelegate>
 
 @property IBOutlet WKInterfaceSKScene * scene;
 @end

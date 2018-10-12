@@ -60,35 +60,36 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	self = [super initWithCoder:coder];
 	if (self) {
 		
-		self.theme = ThemeDelay;
+		self.theme = ThemeMarble;
 		self.useProgrammaticLayout = YES;
 		self.useRoundFace = YES;
 		self.numeralStyle = NumeralStyleAll;
 		self.tickmarkStyle = TickmarkStyleAll;
+		self.faceSize = (CGSize){184, 224};
 		
-		[self setupColors];
-		[self setupScene];
+		[self refreshTheme];
 		
 		self.delegate = self;
 	}
 	return self;
 }
 
--(void)setupTickmarksForRoundFace
+#pragma mark -
+
+-(void)setupTickmarksForRoundFaceWithLayerName:(NSString *)layerName
 {
 	CGFloat margin = 4.0;
 	CGFloat labelMargin = 26.0;
 	
-	SKNode *faceMarkings = [SKNode node];
+	SKCropNode *faceMarkings = [SKCropNode node];
+	faceMarkings.name = layerName;
 	
 	/* Hardcoded for 44mm Apple Watch */
-	
-	CGSize faceSize = (CGSize){184, 224};
 	
 	for (int i = 0; i < 12; i++)
 	{
 		CGFloat angle = -(2*M_PI)/12.0 * i;
-		CGFloat workingRadius = faceSize.width/2;
+		CGFloat workingRadius = self.faceSize.width/2;
 		CGFloat longTickHeight = workingRadius/15;
 		
 		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.majorMarkColor size:CGSizeMake(2, longTickHeight)];
@@ -116,7 +117,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	for (int i = 0; i < 60; i++)
 	{
 		CGFloat angle = - (2*M_PI)/60.0 * i;
-		CGFloat workingRadius = faceSize.width/2;
+		CGFloat workingRadius = self.faceSize.width/2;
 		CGFloat shortTickHeight = workingRadius/20;
 		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.minorMarkColor size:CGSizeMake(1, shortTickHeight)];
 		
@@ -130,23 +131,25 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 				[faceMarkings addChild:tick];
 		}
 	}
-	
+
 	[self addChild:faceMarkings];
 }
 
--(void)setupTickmarksForRectangularFace
+
+-(void)setupTickmarksForRectangularFaceWithLayerName:(NSString *)layerName
 {
 	CGFloat margin = 5.0;
 	CGFloat labelYMargin = 30.0;
 	CGFloat labelXMargin = 24.0;
-
-	CGSize faceSize = (CGSize){184, 224};
+	
+	SKCropNode *faceMarkings = [SKCropNode node];
+	faceMarkings.name = layerName;
 	
 	/* Major */
 	for (int i = 0; i < 12; i++)
 	{
 		CGFloat angle = -(2*M_PI)/12.0 * i;
-		CGFloat workingRadius = workingRadiusForFaceOfSizeWithAngle(faceSize, angle);
+		CGFloat workingRadius = workingRadiusForFaceOfSizeWithAngle(self.faceSize, angle);
 		CGFloat longTickHeight = workingRadius/10.0;
 		
 		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.majorMarkColor size:CGSizeMake(2, longTickHeight)];
@@ -158,7 +161,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		tick.zPosition = 0;
 		
 		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor)
-			[self addChild:tick];
+			[faceMarkings addChild:tick];
 	}
 	
 	/* Minor */
@@ -166,7 +169,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	{
 		
 		CGFloat angle =  (2*M_PI)/60.0 * i;
-		CGFloat workingRadius = workingRadiusForFaceOfSizeWithAngle(faceSize, angle);
+		CGFloat workingRadius = workingRadiusForFaceOfSizeWithAngle(self.faceSize, angle);
 		CGFloat shortTickHeight = workingRadius/20;
 		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.minorMarkColor size:CGSizeMake(1, shortTickHeight)];
 		
@@ -186,7 +189,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		{
 			if (i % 5 != 0)
 			{
-				[self addChild:tick];
+				[faceMarkings addChild:tick];
 			}
 		}
 	}
@@ -200,15 +203,15 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		labelNode.anchorPoint = CGPointMake(0.5,0.5);
 		
 		if (i == 1 || i == 11 || i == 12)
-			labelNode.position = CGPointMake(labelXMargin-faceSize.width/2 + ((i+1)%3) * (faceSize.width-labelXMargin*2)/3.0 + (faceSize.width-labelXMargin*2)/6.0, faceSize.height/2-labelYMargin);
+			labelNode.position = CGPointMake(labelXMargin-self.faceSize.width/2 + ((i+1)%3) * (self.faceSize.width-labelXMargin*2)/3.0 + (self.faceSize.width-labelXMargin*2)/6.0, self.faceSize.height/2-labelYMargin);
 		else if (i == 5 || i == 6 || i == 7)
-			labelNode.position = CGPointMake(labelXMargin-faceSize.width/2 + (2-((i+1)%3)) * (faceSize.width-labelXMargin*2)/3.0 + (faceSize.width-labelXMargin*2)/6.0, -faceSize.height/2+labelYMargin);
+			labelNode.position = CGPointMake(labelXMargin-self.faceSize.width/2 + (2-((i+1)%3)) * (self.faceSize.width-labelXMargin*2)/3.0 + (self.faceSize.width-labelXMargin*2)/6.0, -self.faceSize.height/2+labelYMargin);
 		else if (i == 2 || i == 3 || i == 4)
-			labelNode.position = CGPointMake(faceSize.height/2-fontSize-labelXMargin, -(faceSize.width-labelXMargin*2)/2 + (2-((i+1)%3)) * (faceSize.width-labelXMargin*2)/3.0 + (faceSize.width-labelYMargin*2)/6.0);
+			labelNode.position = CGPointMake(self.faceSize.height/2-fontSize-labelXMargin, -(self.faceSize.width-labelXMargin*2)/2 + (2-((i+1)%3)) * (self.faceSize.width-labelXMargin*2)/3.0 + (self.faceSize.width-labelYMargin*2)/6.0);
 		else if (i == 8 || i == 9 || i == 10)
-			labelNode.position = CGPointMake(-faceSize.height/2+fontSize+labelXMargin, -(faceSize.width-labelXMargin*2)/2 + ((i+1)%3) * (faceSize.width-labelXMargin*2)/3.0 + (faceSize.width-labelYMargin*2)/6.0);
+			labelNode.position = CGPointMake(-self.faceSize.height/2+fontSize+labelXMargin, -(self.faceSize.width-labelXMargin*2)/2 + ((i+1)%3) * (self.faceSize.width-labelXMargin*2)/3.0 + (self.faceSize.width-labelYMargin*2)/6.0);
 		
-		[self addChild:labelNode];
+		[faceMarkings addChild:labelNode];
 		
 		NSDictionary *attribs = @{NSFontAttributeName : [NSFont fontWithName:@"Futura-Medium" size:fontSize], NSForegroundColorAttributeName : self.textColor};
 		
@@ -221,27 +224,37 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		if (self.numeralStyle == NumeralStyleAll || ((self.numeralStyle == NumeralStyleCardinal) && (i % 3 == 0)))
 			[labelNode addChild:numberLabel];
 	}
+	
+	[self addChild:faceMarkings];
 }
+
+#pragma mark -
 
 -(void)setupColors
 {
-	SKColor *lightColor = nil;
-	SKColor *darkColor = nil;
+	SKColor *colorRegionColor = nil;
+	SKColor *faceBackgroundColor = nil;
 	SKColor *majorMarkColor = nil;
 	SKColor *minorMarkColor = nil;
 	SKColor *inlayColor = nil;
 	SKColor *handColor = nil;
 	SKColor *textColor = nil;
 	SKColor *secondHandColor = nil;
+	
+	SKColor *alternateMajorMarkColor = nil;
+	SKColor *alternateMinorMarkColor = nil;
+	SKColor *alternateTextColor = nil;
 
+	self.useMasking = NO;
+	
 	switch (self.theme) {
 		case ThemeHermesPink:
 		{
-			lightColor = [SKColor colorWithRed:0.848 green:0.187 blue:0.349 alpha:1];
-			darkColor = [SKColor colorWithRed:0.387 green:0.226 blue:0.270 alpha:1];
+			colorRegionColor = [SKColor colorWithRed:0.848 green:0.187 blue:0.349 alpha:1];
+			faceBackgroundColor = [SKColor colorWithRed:0.387 green:0.226 blue:0.270 alpha:1];
 			majorMarkColor = [SKColor colorWithRed:0.831 green:0.540 blue:0.612 alpha:1];
 			minorMarkColor = majorMarkColor;
-			inlayColor = lightColor;
+			inlayColor = colorRegionColor;
 			handColor = [SKColor whiteColor];
 			textColor = [SKColor whiteColor];
 			secondHandColor = majorMarkColor;
@@ -249,8 +262,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeHermesOrange:
 		{
-			lightColor = [SKColor colorWithRed:0.892 green:0.825 blue:0.745 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.118 green:0.188 blue:0.239 alpha:1.000];
+			colorRegionColor = [SKColor colorWithRed:0.892 green:0.825 blue:0.745 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.118 green:0.188 blue:0.239 alpha:1.000];
 			inlayColor = [SKColor colorWithRed:1.000 green:0.450 blue:0.136 alpha:1.000];
 			majorMarkColor = [inlayColor colorWithAlphaComponent:0.5];
 			minorMarkColor = majorMarkColor;
@@ -261,9 +274,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeNavy:
 		{
-			lightColor = [SKColor colorWithRed:0.067 green:0.471 blue:0.651 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.118 green:0.188 blue:0.239 alpha:1.000];
-			inlayColor = lightColor;
+			colorRegionColor = [SKColor colorWithRed:0.067 green:0.471 blue:0.651 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.118 green:0.188 blue:0.239 alpha:1.000];
+			inlayColor = colorRegionColor;
 			majorMarkColor = [SKColor whiteColor];
 			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
@@ -273,8 +286,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeTidepod:
 		{
-			lightColor = [SKColor colorWithRed:1.000 green:0.450 blue:0.136 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.067 green:0.471 blue:0.651 alpha:1.000];
+			colorRegionColor = [SKColor colorWithRed:1.000 green:0.450 blue:0.136 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.067 green:0.471 blue:0.651 alpha:1.000];
 			inlayColor = [SKColor colorWithRed:0.953 green:0.569 blue:0.196 alpha:1.000];
 			majorMarkColor = [SKColor whiteColor];
 			minorMarkColor = majorMarkColor;
@@ -285,9 +298,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeBretonnia:
 		{
-			lightColor = [SKColor colorWithRed:0.067 green:0.420 blue:0.843 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.956 green:0.137 blue:0.294 alpha:1.000];
-			inlayColor = darkColor;
+			colorRegionColor = [SKColor colorWithRed:0.067 green:0.420 blue:0.843 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.956 green:0.137 blue:0.294 alpha:1.000];
+			inlayColor = faceBackgroundColor;
 			majorMarkColor = [SKColor whiteColor];
 			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
@@ -297,9 +310,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeNoir:
 		{
-			lightColor = [SKColor colorWithWhite:0.3 alpha:1.0];
-			darkColor = [SKColor blackColor];
-			inlayColor = darkColor;
+			colorRegionColor = [SKColor colorWithWhite:0.3 alpha:1.0];
+			faceBackgroundColor = [SKColor blackColor];
+			inlayColor = faceBackgroundColor;
 			majorMarkColor = [SKColor whiteColor];
 			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
@@ -309,8 +322,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeContrast:
 		{
-			lightColor = [SKColor whiteColor];
-			darkColor = [SKColor whiteColor];
+			colorRegionColor = [SKColor whiteColor];
+			faceBackgroundColor = [SKColor whiteColor];
 			inlayColor = [SKColor whiteColor];
 			majorMarkColor = [SKColor blackColor];
 			minorMarkColor = majorMarkColor;
@@ -321,8 +334,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeVictoire:
 		{
-			lightColor = [SKColor colorWithRed:0.749 green:0.291 blue:0.319 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.391 green:0.382 blue:0.340 alpha:1.000];
+			colorRegionColor = [SKColor colorWithRed:0.749 green:0.291 blue:0.319 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.391 green:0.382 blue:0.340 alpha:1.000];
 			inlayColor = [SKColor colorWithRed:0.649 green:0.191 blue:0.219 alpha:1.000];
 			majorMarkColor = [SKColor colorWithRed:0.937 green:0.925 blue:0.871 alpha:1.000];
 			minorMarkColor = majorMarkColor;
@@ -333,8 +346,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeLiquid:
 		{
-			lightColor = [SKColor colorWithWhite:0.2 alpha:1.0];
-			darkColor = lightColor;
+			colorRegionColor = [SKColor colorWithWhite:0.2 alpha:1.0];
+			faceBackgroundColor = colorRegionColor;
 			inlayColor = [SKColor colorWithWhite:0.3 alpha:1.0];
 			majorMarkColor = [SKColor colorWithWhite:0.5 alpha:1.0];
 			minorMarkColor = majorMarkColor;
@@ -345,8 +358,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeAngler:
 		{
-			lightColor = [SKColor blackColor];
-			darkColor = [SKColor blackColor];
+			colorRegionColor = [SKColor blackColor];
+			faceBackgroundColor = [SKColor blackColor];
 			inlayColor = [SKColor colorWithRed:0.180 green:0.800 blue:0.482 alpha:1.000];
 			majorMarkColor = inlayColor;
 			minorMarkColor = majorMarkColor;
@@ -357,8 +370,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeSculley:
 		{
-			lightColor = [SKColor colorWithRed:0.180 green:0.800 blue:0.482 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.180 green:0.600 blue:0.282 alpha:1.000];
+			colorRegionColor = [SKColor colorWithRed:0.180 green:0.800 blue:0.482 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.180 green:0.600 blue:0.282 alpha:1.000];
 			inlayColor = [SKColor colorWithRed:0.180 green:0.800 blue:0.482 alpha:1.000];
 			majorMarkColor = [SKColor colorWithRed:0.080 green:0.300 blue:0.082 alpha:1.000];
 			minorMarkColor = majorMarkColor;
@@ -369,9 +382,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeKitty:
 		{
-			lightColor = [SKColor colorWithRed:0.447 green:0.788 blue:0.796 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.459 green:0.471 blue:0.706 alpha:1.000];
-			inlayColor = lightColor;
+			colorRegionColor = [SKColor colorWithRed:0.447 green:0.788 blue:0.796 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.459 green:0.471 blue:0.706 alpha:1.000];
+			inlayColor = colorRegionColor;
 			majorMarkColor = [SKColor colorWithRed:0.259 green:0.271 blue:0.506 alpha:1.000];
 			minorMarkColor = majorMarkColor;
 			handColor = [SKColor colorWithRed:0.159 green:0.171 blue:0.406 alpha:1.000];
@@ -381,9 +394,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeDelay:
 		{
-			lightColor = [SKColor colorWithRed:0.941 green:0.408 blue:0.231 alpha:1.000];
-			darkColor = [SKColor colorWithWhite:0.282 alpha:1.000];
-			inlayColor = lightColor;
+			colorRegionColor = [SKColor colorWithRed:0.941 green:0.408 blue:0.231 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithWhite:0.282 alpha:1.000];
+			inlayColor = colorRegionColor;
 			majorMarkColor = [SKColor colorWithRed:0.941 green:0.708 blue:0.531 alpha:1.000];
 			minorMarkColor = majorMarkColor;
 			handColor = [SKColor whiteColor];
@@ -393,8 +406,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeDiesel:
 		{
-			lightColor = [SKColor colorWithRed:0.702 green:0.212 blue:0.231 alpha:1.000];
-			darkColor = [SKColor colorWithRed:0.027 green:0.251 blue:0.502 alpha:1.000];
+			colorRegionColor = [SKColor colorWithRed:0.702 green:0.212 blue:0.231 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.027 green:0.251 blue:0.502 alpha:1.000];
 			inlayColor = [SKColor colorWithRed:0.502 green:0.212 blue:0.231 alpha:1.000];
 			majorMarkColor = [SKColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.8];
 			minorMarkColor = majorMarkColor;
@@ -405,8 +418,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		}
 		case ThemeLuxe:
 		{
-			lightColor = [SKColor colorWithWhite:0.082 alpha:1.000];
-			darkColor = [SKColor colorWithWhite:0.082 alpha:1.000];
+			colorRegionColor = [SKColor colorWithWhite:0.082 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithWhite:0.082 alpha:1.000];
 			inlayColor = [SKColor colorWithRed:0.969 green:0.878 blue:0.780 alpha:1.000];
 			majorMarkColor = [SKColor colorWithRed:0.804 green:0.710 blue:0.639 alpha:1.000];
 			minorMarkColor = majorMarkColor;
@@ -415,18 +428,106 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 			secondHandColor = inlayColor;
 			break;
 		}
+		case ThemeSage:
+		{
+			colorRegionColor = [SKColor colorWithRed:0.357 green:0.678 blue:0.600 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.264 green:0.346 blue:0.321 alpha:1.000];
+			inlayColor = colorRegionColor;
+			majorMarkColor = [SKColor colorWithRed:0.607 green:0.754 blue:0.718 alpha:1.000];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor whiteColor];
+			textColor = handColor;
+			secondHandColor = inlayColor;
+			break;
+		}
+		case ThemeBondi:
+		{
+			colorRegionColor = [SKColor colorWithRed:0.086 green:0.584 blue:0.706 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithWhite:0.9 alpha:1];
+			inlayColor = colorRegionColor;
+			majorMarkColor = [SKColor colorWithWhite:0.9 alpha:1.0];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor colorWithWhite:1.0 alpha:1.0];
+			secondHandColor = [SKColor colorWithRed:0.486 green:0.784 blue:0.906 alpha:1.000];
+			
+			alternateTextColor = [SKColor colorWithWhite:0.6 alpha:1];
+			alternateMinorMarkColor = [SKColor colorWithWhite:0.6 alpha:1];
+			alternateMajorMarkColor = [SKColor colorWithWhite:0.6 alpha:1];
+			
+			self.useMasking = YES;
+			break;
+		}
+		case ThemeTangerine:
+		{
+			colorRegionColor = [SKColor colorWithRed:0.992 green:0.502 blue:0.192 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithWhite:0.9 alpha:1];
+			inlayColor = colorRegionColor;
+			majorMarkColor = [SKColor colorWithWhite:0.9 alpha:1.0];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor colorWithWhite:1.0 alpha:1.0];
+			secondHandColor = [SKColor colorWithRed:0.992 green:0.702 blue:0.392 alpha:1.000];
+			
+			alternateTextColor = [SKColor colorWithWhite:0.6 alpha:1];
+			alternateMinorMarkColor = [SKColor colorWithWhite:0.6 alpha:1];
+			alternateMajorMarkColor = [SKColor colorWithWhite:0.6 alpha:1];
+			
+			self.useMasking = YES;
+			break;
+		}
+		case ThemeStrawberry:
+		{
+			colorRegionColor = [SKColor colorWithRed:0.831 green:0.161 blue:0.420 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithWhite:0.9 alpha:1];
+			inlayColor = colorRegionColor;
+			majorMarkColor = [SKColor colorWithWhite:0.9 alpha:1.0];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor colorWithWhite:1.0 alpha:1];
+			secondHandColor = [SKColor colorWithRed:0.912 green:0.198 blue:0.410 alpha:1.000];
+			
+			alternateTextColor = [SKColor colorWithWhite:0.6 alpha:1];
+			alternateMinorMarkColor = [SKColor colorWithWhite:0.6 alpha:1];
+			alternateMajorMarkColor = [SKColor colorWithWhite:0.6 alpha:1];
+			
+			self.useMasking = YES;
+			break;
+		}
+		case ThemeMarble:
+		{
+			colorRegionColor = [SKColor colorWithRed:0.196 green:0.329 blue:0.275 alpha:1.000];
+			faceBackgroundColor = [SKColor colorWithRed:0.846 green:0.847 blue:0.757 alpha:1.000];
+			inlayColor = colorRegionColor;
+			majorMarkColor = [SKColor colorWithRed:0.365 green:0.580 blue:0.506 alpha:1.000];
+			minorMarkColor = majorMarkColor;
+			handColor = [SKColor whiteColor];
+			textColor = [SKColor colorWithWhite:1.0 alpha:1];
+			secondHandColor = [SKColor colorWithRed:0.912 green:0.198 blue:0.410 alpha:1.000];
+			
+			alternateTextColor = colorRegionColor;
+			alternateMinorMarkColor = colorRegionColor;
+			alternateMajorMarkColor = colorRegionColor;
+			
+			self.useMasking = YES;
+			break;
+		}
 		default:
 			break;
 	}
 	
-	self.lightColor = lightColor;
-	self.darkColor = darkColor;
+	self.colorRegionColor = colorRegionColor;
+	self.faceBackgroundColor = faceBackgroundColor;
 	self.majorMarkColor = majorMarkColor;
 	self.minorMarkColor = minorMarkColor;
 	self.inlayColor = inlayColor;
 	self.textColor = textColor;
 	self.handColor = handColor;
 	self.secondHandColor = secondHandColor;
+	
+	self.alternateMajorMarkColor = alternateMajorMarkColor;
+	self.alternateMinorMarkColor = alternateMinorMarkColor;
+	self.alternateTextColor = alternateTextColor;
 }
 
 -(void)setupScene
@@ -441,6 +542,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	
 	SKSpriteNode *secondHand = (SKSpriteNode *)[face childNodeWithName:@"Seconds"];
 	SKSpriteNode *colorRegion = (SKSpriteNode *)[face childNodeWithName:@"Color Region"];
+	SKSpriteNode *colorRegionReflection = (SKSpriteNode *)[face childNodeWithName:@"Color Region Reflection"];
 	SKSpriteNode *numbers = (SKSpriteNode *)[face childNodeWithName:@"Numbers"];
 	
 	hourHand.color = self.handColor;
@@ -452,9 +554,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	secondHand.color = self.secondHandColor;
 	secondHand.colorBlendFactor = 1.0;
 	
-	self.backgroundColor = self.darkColor;
+	self.backgroundColor = self.faceBackgroundColor;
 	
-	colorRegion.color = self.lightColor;
+	colorRegion.color = self.colorRegionColor;
 	colorRegion.colorBlendFactor = 1.0;
 	
 	numbers.color = self.textColor;
@@ -466,22 +568,60 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	minuteHandInlay.color = self.inlayColor;
 	minuteHandInlay.colorBlendFactor = 1.0;
 	
+	SKSpriteNode *numbersLayer = (SKSpriteNode *)[face childNodeWithName:@"Numbers"];
+
 	if (self.useProgrammaticLayout)
 	{
-		SKNode *face = [self childNodeWithName:@"Face"];
-		SKSpriteNode *numbersLayer = (SKSpriteNode *)[face childNodeWithName:@"Numbers"];
 		numbersLayer.alpha = 0;
 		
 		if (self.useRoundFace)
 		{
-			[self setupTickmarksForRoundFace];
+			[self setupTickmarksForRoundFaceWithLayerName:@"Markings"];
 		}
 		else
 		{
-			[self setupTickmarksForRectangularFace];
+			[self setupTickmarksForRectangularFaceWithLayerName:@"Markings"];
 		}
 	}
+	else
+	{
+		numbersLayer.alpha = 1;
+	}
+	
+	colorRegionReflection.alpha = 0;
 }
+
+
+-(void)setupMasking
+{
+	SKCropNode *faceMarkings = (SKCropNode *)[self childNodeWithName:@"Markings"];
+	SKNode *face = [self childNodeWithName:@"Face"];
+	
+	SKNode *colorRegion = [face childNodeWithName:@"Color Region"];
+	SKNode *colorRegionReflection = [face childNodeWithName:@"Color Region Reflection"];
+	
+	faceMarkings.maskNode = colorRegion;
+	
+	self.textColor = self.alternateTextColor;
+	self.minorMarkColor = self.alternateMinorMarkColor;
+	self.majorMarkColor = self.alternateMajorMarkColor;
+	
+	
+	if (self.useRoundFace)
+	{
+		[self setupTickmarksForRoundFaceWithLayerName:@"Markings Alternate"];
+	}
+	else
+	{
+		[self setupTickmarksForRectangularFaceWithLayerName:@"Markings Alternate"];
+	}
+	
+	SKCropNode *alternateFaceMarkings = (SKCropNode *)[self childNodeWithName:@"Markings Alternate"];
+	colorRegionReflection.alpha = 1;
+	alternateFaceMarkings.maskNode = colorRegionReflection;
+}
+
+#pragma mark -
 
 - (void)update:(NSTimeInterval)currentTime forScene:(SKScene *)scene
 {
@@ -505,13 +645,34 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	SKNode *secondHand = [face childNodeWithName:@"Seconds"];
 	
 	SKNode *colorRegion = [face childNodeWithName:@"Color Region"];
-	
+	SKNode *colorRegionReflection = [face childNodeWithName:@"Color Region Reflection"];
+
 	hourHand.zRotation =  - (2*M_PI)/12.0 * (CGFloat)(components.hour%12 + 1.0/60.0*components.minute);
 	minuteHand.zRotation =  - (2*M_PI)/60.0 * (CGFloat)(components.minute + 1.0/60.0*components.second);
 	secondHand.zRotation = - (2*M_PI)/60 * (CGFloat)(components.second + 1.0/NSEC_PER_SEC*components.nanosecond);
 	
 	colorRegion.zRotation =  M_PI_2 -(2*M_PI)/60.0 * (CGFloat)(components.minute + 1.0/60.0*components.second);
+	colorRegionReflection.zRotation =  M_PI_2 - (2*M_PI)/60.0 * (CGFloat)(components.minute + 1.0/60.0*components.second);
 }
 
+-(void)refreshTheme
+{
+	SKNode *existingMarkings = [self childNodeWithName:@"Markings"];
+	SKNode *existingDualMaskMarkings = [self childNodeWithName:@"Markings 2"];
+
+	[existingMarkings removeAllChildren];
+	[existingMarkings removeFromParent];
+	
+	[existingDualMaskMarkings removeAllChildren];
+	[existingDualMaskMarkings removeFromParent];
+	
+	[self setupColors];
+	[self setupScene];
+	
+	if (self.useMasking)
+	{
+		[self setupMasking];
+	}
+}
 
 @end

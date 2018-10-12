@@ -25,7 +25,13 @@ typedef enum : NSUInteger {
 	ThemeKitty,
 	ThemeDelay,
 	ThemeDiesel,
-	ThemeLuxe
+	ThemeLuxe,
+	ThemeSage,
+	ThemeBondi,
+	ThemeTangerine,
+	ThemeStrawberry,
+	ThemeMarble,
+	ThemeMAX
 } Theme;
 
 typedef enum : NSUInteger {
@@ -43,22 +49,31 @@ typedef enum : NSUInteger {
 
 @interface FaceScene : SKScene <SKSceneDelegate>
 
+-(void)refreshTheme;
+
 @property Theme theme;
 @property NumeralStyle numeralStyle;
 @property TickmarkStyle tickmarkStyle;
 
-@property SKColor *lightColor;
-@property SKColor *darkColor;
+@property SKColor *colorRegionColor;
+@property SKColor *faceBackgroundColor;
 @property SKColor *handColor;
 @property SKColor *secondHandColor;
 @property SKColor *inlayColor;
+
 @property SKColor *majorMarkColor;
 @property SKColor *minorMarkColor;
-
 @property SKColor *textColor;
+
+@property SKColor *alternateMajorMarkColor;
+@property SKColor *alternateMinorMarkColor;
+@property SKColor *alternateTextColor;
 
 @property BOOL useProgrammaticLayout;
 @property BOOL useRoundFace;
+@property BOOL useMasking;
+
+@property CGSize faceSize;
 
 @end
 
