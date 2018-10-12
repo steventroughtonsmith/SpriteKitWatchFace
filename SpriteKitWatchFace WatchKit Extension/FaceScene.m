@@ -13,7 +13,7 @@
 #define NSFontWeightMedium UIFontWeightMedium
 #endif
 
-#define PREPARE_SCREENSHOT 1
+#define PREPARE_SCREENSHOT 0
 
 CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 {
