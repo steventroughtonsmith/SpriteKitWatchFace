@@ -60,7 +60,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	self = [super initWithCoder:coder];
 	if (self) {
 		
-		self.theme = ThemeDelay;
+		self.theme = ThemeNavy;
 		self.useProgrammaticLayout = YES;
 		self.useRoundFace = YES;
 		self.numeralStyle = NumeralStyleAll;
@@ -81,9 +81,12 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	
 	SKNode *faceMarkings = [SKNode node];
 	
-	/* Hardcoded for 44mm Apple Watch */
-	
-	CGSize faceSize = (CGSize){184, 224};
+    NSDictionary *resolution = CFBridgingRelease(CGRectCreateDictionaryRepresentation([WKInterfaceDevice currentDevice].screenBounds));
+
+    CGFloat faceWidth = [resolution[@"Width"] floatValue];
+    CGFloat faceHeight = [resolution[@"Height"] floatValue];
+
+    CGSize faceSize = (CGSize){faceWidth, faceHeight};
 	
 	for (int i = 0; i < 12; i++)
 	{
@@ -140,7 +143,12 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	CGFloat labelYMargin = 30.0;
 	CGFloat labelXMargin = 24.0;
 
-	CGSize faceSize = (CGSize){184, 224};
+    NSDictionary *resolution = CFBridgingRelease(CGRectCreateDictionaryRepresentation([WKInterfaceDevice currentDevice].screenBounds));
+    
+    CGFloat faceWidth = [resolution[@"Width"] integerValue];
+    CGFloat faceHeight = [resolution[@"Height"] integerValue];
+    
+    CGSize faceSize = (CGSize){faceWidth, faceHeight};
 	
 	/* Major */
 	for (int i = 0; i < 12; i++)

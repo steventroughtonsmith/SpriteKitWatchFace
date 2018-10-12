@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import <WatchKit/WatchKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
