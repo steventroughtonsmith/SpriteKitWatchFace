@@ -325,6 +325,8 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
         tick.strokeColor = [SKColor clearColor];
         tick.position = CGPointZero;
         
+        CGPathRelease(tickPath);
+        
         if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor)
             [self addChild:tick];
 	}
@@ -363,6 +365,8 @@ CGPoint intersectionBetweenPathAndLinePassingThroughPoints(CGPathRef path, CGPoi
         tick.fillColor = self.minorMarkColor;
         tick.strokeColor = [SKColor clearColor];
         tick.position = CGPointZero;
+        
+        CGPathRelease(tickPath);
         
         if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMinor)
             [self addChild:tick];
