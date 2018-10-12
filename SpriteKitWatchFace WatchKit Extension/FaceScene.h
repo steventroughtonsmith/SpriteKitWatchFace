@@ -60,6 +60,9 @@ typedef enum : NSUInteger {
 @property BOOL useProgrammaticLayout;
 @property BOOL useRoundFace;
 
+@property CGSize majorMarkSize;
+@property CGSize minorMarkSize;
+
 @end
 
 
