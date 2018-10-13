@@ -21,6 +21,7 @@
 		B0D30AFF216D5B2700444765 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D30AFE216D5B2700444765 /* ExtensionDelegate.m */; };
 		B0D30B01216D5B2800444765 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0D30B00216D5B2800444765 /* Assets.xcassets */; };
 		B0D30B14216D5C6A00444765 /* FaceScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B0D30B13216D5C6A00444765 /* FaceScene.sks */; };
+		B0D4F2B72172164B00F497E0 /* FaceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D4F2B62172164B00F497E0 /* FaceWindow.m */; };
 		B0EB72EC216E69AA0098CF27 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B0EB72EB216E69AA0098CF27 /* AppDelegate.m */; };
 		B0EB72F6216E69AA0098CF27 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0EB72F5216E69AA0098CF27 /* ViewController.m */; };
 		B0EB72F8216E69AB0098CF27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0EB72F7216E69AB0098CF27 /* Assets.xcassets */; };
@@ -97,6 +98,8 @@
 		B0D30B00216D5B2800444765 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B0D30B02216D5B2800444765 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B0D30B13216D5C6A00444765 /* FaceScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FaceScene.sks; sourceTree = "<group>"; };
+		B0D4F2B52172164B00F497E0 /* FaceWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceWindow.h; sourceTree = "<group>"; };
+		B0D4F2B62172164B00F497E0 /* FaceWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceWindow.m; sourceTree = "<group>"; };
 		B0EB72E3216E3C350098CF27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B0EB72E8216E69AA0098CF27 /* DesktopShim.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesktopShim.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0EB72EA216E69AA0098CF27 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -209,6 +212,8 @@
 				B0EB72EB216E69AA0098CF27 /* AppDelegate.m */,
 				B0EB72F4216E69AA0098CF27 /* ViewController.h */,
 				B0EB72F5216E69AA0098CF27 /* ViewController.m */,
+				B0D4F2B52172164B00F497E0 /* FaceWindow.h */,
+				B0D4F2B62172164B00F497E0 /* FaceWindow.m */,
 				B0EB72F7216E69AB0098CF27 /* Assets.xcassets */,
 				B0EB72F9216E69AB0098CF27 /* Main.storyboard */,
 				B0EB72FC216E69AB0098CF27 /* Info.plist */,
@@ -463,6 +468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0EB72F6216E69AA0098CF27 /* ViewController.m in Sources */,
+				B0D4F2B72172164B00F497E0 /* FaceWindow.m in Sources */,
 				B0EB72FE216E69AB0098CF27 /* main.m in Sources */,
 				B0EB72EC216E69AA0098CF27 /* AppDelegate.m in Sources */,
 				B0EB7308216E6C380098CF27 /* FaceScene.m in Sources */,

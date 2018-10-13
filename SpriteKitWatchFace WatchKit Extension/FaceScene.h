@@ -41,15 +41,39 @@ typedef enum : NSUInteger {
 typedef enum : NSUInteger {
 	NumeralStyleAll,
 	NumeralStyleCardinal,
-	NumeralStyleNone
+	NumeralStyleNone,
+	NumeralStyleMAX
 } NumeralStyle;
 
 typedef enum : NSUInteger {
 	TickmarkStyleAll,
 	TickmarkStyleMajor,
 	TickmarkStyleMinor,
-	TickmarkStyleNone
+	TickmarkStyleNone,
+	TickmarkStyleMAX
 } TickmarkStyle;
+
+typedef enum : NSUInteger {
+	FaceStyleRound,
+	FaceStyleRectangular,
+	FaceStyleMAX
+} FaceStyle;
+
+typedef enum : NSUInteger {
+	ColorRegionStyleNone,
+	ColorRegionStyleDynamicDuo,
+	ColorRegionStyleHalf,
+	ColorRegionStyleCircle,
+	ColorRegionStyleRing,
+	ColorRegionStyleMAX
+} ColorRegionStyle;
+
+typedef enum : NSUInteger {
+	TickmarkShapeRectangular,
+	TickmarkShapeCircular,
+	TickmarkShapeTriangular,
+	TickmarkShapeMAX
+} TickmarkShape;
 
 @interface FaceScene : SKScene <SKSceneDelegate>
 
@@ -58,6 +82,10 @@ typedef enum : NSUInteger {
 @property Theme theme;
 @property NumeralStyle numeralStyle;
 @property TickmarkStyle tickmarkStyle;
+@property TickmarkShape majorTickmarkShape;
+@property TickmarkShape minorTickmarkShape;
+@property FaceStyle faceStyle;
+@property ColorRegionStyle colorRegionStyle;
 
 @property SKColor *colorRegionColor;
 @property SKColor *faceBackgroundColor;
@@ -74,9 +102,9 @@ typedef enum : NSUInteger {
 @property SKColor *alternateTextColor;
 
 @property BOOL useProgrammaticLayout;
-@property BOOL useRoundFace;
 @property BOOL useMasking;
 @property BOOL showDate;
+@property BOOL showCenterDisc;
 
 @property CGSize faceSize;
 
