@@ -10,6 +10,9 @@
 @import CoreText;
 
 #if TARGET_OS_IPHONE
+
+/* Sigh. */
+
 #define NSFont UIFont
 #define NSFontWeightMedium UIFontWeightMedium
 
@@ -160,13 +163,18 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		[df setDateFormat:@"ccc d"];
 		
 		CGFloat h = 12;
+		CGFloat numeralDelta = 0.0;
 		
 		NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
 		
 		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[df stringFromDate:[NSDate date]] uppercaseString] attributes:attribs];
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
-		numberLabel.position = CGPointMake(32, -4);
+		
+		if (self.numeralStyle == NumeralStyleNone)
+			numeralDelta = 10.0;
+		
+		numberLabel.position = CGPointMake(32+numeralDelta, -4);
 		
 		[faceMarkings addChild:numberLabel];
 	}
@@ -277,7 +285,12 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[df stringFromDate:[NSDate date]] uppercaseString] attributes:attribs];
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
-		numberLabel.position = CGPointMake(32, -4);
+		CGFloat numeralDelta = 0.0;
+		
+		if (self.numeralStyle == NumeralStyleNone)
+			numeralDelta = 10.0;
+		
+		numberLabel.position = CGPointMake(32+numeralDelta, -4);
 		
 		[faceMarkings addChild:numberLabel];
 	}
