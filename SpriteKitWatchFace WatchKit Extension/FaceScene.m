@@ -86,7 +86,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 
 		self.theme = [[NSUserDefaults standardUserDefaults] integerForKey:@"Theme"];
 		self.useProgrammaticLayout = YES;
-		self.faceStyle = FaceStyleRound;
+		self.faceStyle = FaceStyleRectangular;
 		self.numeralStyle = NumeralStyleAll;
 		self.tickmarkStyle = TickmarkStyleAll;
 		self.majorTickmarkShape = TickmarkShapeRectangular;
@@ -535,6 +535,10 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
         NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
         
         NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%.0f%%", watchBatteryPercentage * 100] uppercaseString] attributes:attribs];
+        
+        if (self.romanNumerals) {
+            labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%@%%", [self romain:watchBatteryPercentage * 100]] uppercaseString] attributes:attribs];
+        }
         
         SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
         CGFloat numeralDelta = 0.0;
