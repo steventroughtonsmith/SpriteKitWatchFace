@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import <WatchKit/WatchKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -104,6 +105,8 @@ typedef enum : NSUInteger {
 @property BOOL useProgrammaticLayout;
 @property BOOL useMasking;
 @property BOOL showDate;
+@property BOOL showBattery;
+@property BOOL batteryCenter;
 @property BOOL showCenterDisc;
 
 @property CGSize faceSize;

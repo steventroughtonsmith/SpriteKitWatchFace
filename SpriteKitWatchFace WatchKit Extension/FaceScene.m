@@ -94,6 +94,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 
 		self.colorRegionStyle = ColorRegionStyleDynamicDuo;
 		self.showDate = YES;
+        self.showBattery = YES;
+        self.batteryCenter = NO;
 		
 		[self refreshTheme];
 		
@@ -245,6 +247,32 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		[faceMarkings addChild:numberLabel];
 	}
+    
+    if (self.showBattery)
+    {
+        [WKInterfaceDevice currentDevice].batteryMonitoringEnabled = YES;
+        float watchBatteryPercentage = [WKInterfaceDevice currentDevice].batteryLevel;
+        
+        CGFloat h = 12;
+        
+        NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
+        
+        NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%.0f%%", watchBatteryPercentage * 100] uppercaseString] attributes:attribs];
+        
+        SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
+        CGFloat numeralDelta = 0.0;
+        
+        if (self.numeralStyle == NumeralStyleNone)
+            numeralDelta = 10.0;
+        
+        if (self.batteryCenter) {
+            numberLabel.position = CGPointMake(0+numeralDelta, -40);
+        } else {
+            numberLabel.position = CGPointMake(-32+numeralDelta, -4);
+        }
+        
+        [faceMarkings addChild:numberLabel];
+    }
 
 	[self addChild:faceMarkings];
 }
@@ -422,6 +450,32 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		[faceMarkings addChild:numberLabel];
 	}
+    
+    if (self.showBattery)
+    {
+        [WKInterfaceDevice currentDevice].batteryMonitoringEnabled = YES;
+        float watchBatteryPercentage = [WKInterfaceDevice currentDevice].batteryLevel;
+        
+        CGFloat h = 12;
+        
+        NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
+        
+        NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%.0f%%", watchBatteryPercentage * 100] uppercaseString] attributes:attribs];
+        
+        SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
+        CGFloat numeralDelta = 0.0;
+        
+        if (self.numeralStyle == NumeralStyleNone)
+            numeralDelta = 10.0;
+        
+        if (self.batteryCenter) {
+            numberLabel.position = CGPointMake(0+numeralDelta, -40);
+        } else {
+            numberLabel.position = CGPointMake(-32+numeralDelta, -4);
+        }
+        
+        [faceMarkings addChild:numberLabel];
+    }
 	
 	[self addChild:faceMarkings];
 }
