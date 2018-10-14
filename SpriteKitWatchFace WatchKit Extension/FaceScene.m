@@ -86,7 +86,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 
 		self.theme = [[NSUserDefaults standardUserDefaults] integerForKey:@"Theme"];
 		self.useProgrammaticLayout = YES;
-		self.faceStyle = FaceStyleRectangular;
+		self.faceStyle = FaceStyleRound;
 		self.numeralStyle = NumeralStyleAll;
 		self.tickmarkStyle = TickmarkStyleAll;
 		self.majorTickmarkShape = TickmarkShapeRectangular;
@@ -189,7 +189,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
         
         NSAttributedString *labelText;
         
-        if (!self.romanNumerals) {
+        if (self.romanNumerals) {
             CGFloat h = 20;
             
             NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
@@ -292,6 +292,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
         NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
         
         NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%.0f%%", watchBatteryPercentage * 100] uppercaseString] attributes:attribs];
+        if (self.romanNumerals) {
+            labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%@%%", [self romain:watchBatteryPercentage * 100]] uppercaseString] attributes:attribs];
+        }
         
         SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
         CGFloat numeralDelta = 0.0;
@@ -480,15 +483,15 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
         
         NSAttributedString *labelText;
         
-        if (!self.romanNumerals) {
-            NSDictionary *attribs = @{NSFontAttributeName : [NSFont fontWithName:@"Futura-Medium" size:fontSize], NSForegroundColorAttributeName : self.textColor};
-            
-            labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", i] attributes:attribs];
-        } else {
+        if (self.romanNumerals) {
             CGFloat fontSize = 20;
             NSDictionary *attribs = @{NSFontAttributeName : [NSFont fontWithName:@"Futura-Medium" size:fontSize], NSForegroundColorAttributeName : self.textColor};
             
             labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", [self romain:i]] attributes:attribs];
+        } else {
+            NSDictionary *attribs = @{NSFontAttributeName : [NSFont fontWithName:@"Futura-Medium" size:fontSize], NSForegroundColorAttributeName : self.textColor};
+            
+            labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", i] attributes:attribs];
         }
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
