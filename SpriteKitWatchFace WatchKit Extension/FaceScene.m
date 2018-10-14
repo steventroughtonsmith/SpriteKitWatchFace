@@ -86,7 +86,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 
 		self.theme = [[NSUserDefaults standardUserDefaults] integerForKey:@"Theme"];
 		self.useProgrammaticLayout = YES;
-		self.faceStyle = FaceStyleRound;
+		self.faceStyle = FaceStyleRectangular;
 		self.numeralStyle = NumeralStyleAll;
 		self.tickmarkStyle = TickmarkStyleAll;
 		self.majorTickmarkShape = TickmarkShapeRectangular;
@@ -95,13 +95,37 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		self.colorRegionStyle = ColorRegionStyleDynamicDuo;
 		self.showDate = YES;
         self.showBattery = YES;
+        self.showDailyMessage = YES;
         self.batteryCenter = NO;
+        self.romanNumerals = YES;
 		
 		[self refreshTheme];
 		
 		self.delegate = self;
 	}
 	return self;
+}
+
+- (NSString*)romain:(int)num {
+    if (num < 0 || num > 9999) { return @""; } // out of range
+    
+    NSArray *r_ones = [NSArray arrayWithObjects:@"I", @"II", @"III", @"IV", @"V", @"VI", @"VII", @"VIII", @"IX", nil];
+    NSArray *r_tens = [NSArray arrayWithObjects:@"X", @"XX", @"XXX", @"XL", @"L", @"LX", @"LXX",@"LXXX", @"XC", nil];
+    NSArray *r_hund = [NSArray arrayWithObjects:@"C", @"CC", @"CCC", @"CD", @"D", @"DC", @"DCC",@"DCCC", @"CM", nil];
+    NSArray *r_thou = [NSArray arrayWithObjects:@"M", @"MM", @"MMM", @"MMMM", @"MMMMM", @"MMMMMM", @"MMMMMMM", @"MMMMMMMM", @"MMMMMMMMM", nil];
+    // real romans should have an horizontal   __           ___           _____
+    // bar over number to make x 1000: 4000 is IV, 16000 is XVI, 32767 is XXXMMDCCLXVII...
+    
+    int thou = num / 1000;
+    int hundreds = (num -= thou*1000) / 100;
+    int tens = (num -= hundreds*100) / 10;
+    int ones = num % 10; // cheap %, 'cause num is < 100!
+    
+    return [NSString stringWithFormat:@"%@%@%@%@",
+            thou ? [r_thou objectAtIndex:thou-1] : @"",
+            hundreds ? [r_hund objectAtIndex:hundreds-1] : @"",
+            tens ? [r_tens objectAtIndex:tens-1] : @"",
+            ones ? [r_ones objectAtIndex:ones-1] : @""];
 }
 
 #pragma mark -
@@ -162,12 +186,22 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 			}
 			
 		}
-		
-		CGFloat h = 25;
-		
-		NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
-		
-		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", i == 0 ? 12 : i] attributes:attribs];
+        
+        NSAttributedString *labelText;
+        
+        if (!self.romanNumerals) {
+            CGFloat h = 20;
+            
+            NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
+            
+            labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", [self romain:i == 0 ? 12 : i]] attributes:attribs];
+        } else {
+            CGFloat h = 25;
+            
+            NSDictionary *attribs = @{NSFontAttributeName : [NSFont systemFontOfSize:h weight:NSFontWeightMedium], NSForegroundColorAttributeName : self.textColor};
+            
+            labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", i == 0 ? 12 : i] attributes:attribs];
+        }
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
 		numberLabel.position = CGPointMake((workingRadius-labelMargin) * -sin(angle), (workingRadius-labelMargin) * cos(angle) - 9);
@@ -273,6 +307,33 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
         
         [faceMarkings addChild:numberLabel];
     }
+    
+//    if (self.showDailyMessage)
+//    {
+////        [WKInterfaceDevice currentDevice].batteryMonitoringEnabled = YES;
+////        float watchBatteryPercentage = [WKInterfaceDevice currentDevice].batteryLevel;
+//
+//        CGFloat h = 12;
+//
+//        NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
+//
+//        NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"Failure is just another chance of getting better."] uppercaseString] attributes:attribs];
+//
+//        SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
+//        CGFloat numeralDelta = 0.0;
+//
+//        if (self.numeralStyle == NumeralStyleNone)
+//            numeralDelta = 10.0;
+//
+////        if (self.dailyMessageCenter) {
+////            numberLabel.position = CGPointMake(0+numeralDelta, 40);
+////        } else {
+////            numberLabel.position = CGPointMake(-32+numeralDelta, -4);
+////        }
+//        numberLabel.position = CGPointMake(0+numeralDelta, 40);
+//
+//        [faceMarkings addChild:numberLabel];
+//    }
 
 	[self addChild:faceMarkings];
 }
@@ -416,9 +477,19 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		[faceMarkings addChild:labelNode];
 		
-		NSDictionary *attribs = @{NSFontAttributeName : [NSFont fontWithName:@"Futura-Medium" size:fontSize], NSForegroundColorAttributeName : self.textColor};
-		
-		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", i] attributes:attribs];
+        
+        NSAttributedString *labelText;
+        
+        if (!self.romanNumerals) {
+            NSDictionary *attribs = @{NSFontAttributeName : [NSFont fontWithName:@"Futura-Medium" size:fontSize], NSForegroundColorAttributeName : self.textColor};
+            
+            labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", i] attributes:attribs];
+        } else {
+            CGFloat fontSize = 20;
+            NSDictionary *attribs = @{NSFontAttributeName : [NSFont fontWithName:@"Futura-Medium" size:fontSize], NSForegroundColorAttributeName : self.textColor};
+            
+            labelText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", [self romain:i]] attributes:attribs];
+        }
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
 		

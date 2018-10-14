@@ -36,6 +36,7 @@ typedef enum : NSUInteger {
 	ThemeMarques,
 	ThemeVox,
 	ThemeSummer,
+    ThemeGradient,
 	ThemeMAX
 } Theme;
 
@@ -106,8 +107,11 @@ typedef enum : NSUInteger {
 @property BOOL useMasking;
 @property BOOL showDate;
 @property BOOL showBattery;
-@property BOOL batteryCenter;
+@property BOOL showDailyMessage;
 @property BOOL showCenterDisc;
+
+@property BOOL batteryCenter;
+@property BOOL romanNumerals;
 
 @property CGSize faceSize;
 
