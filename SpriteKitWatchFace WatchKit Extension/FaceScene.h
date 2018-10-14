@@ -112,6 +112,7 @@ typedef enum : NSUInteger {
 
 @property BOOL batteryCenter;
 @property BOOL romanNumerals;
+@property BOOL romanBattery;
 
 @property CGSize faceSize;
 

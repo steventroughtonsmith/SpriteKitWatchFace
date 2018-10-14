@@ -88,7 +88,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		self.useProgrammaticLayout = YES;
 		self.faceStyle = FaceStyleRectangular;
 		self.numeralStyle = NumeralStyleAll;
-		self.tickmarkStyle = TickmarkStyleAll;
+		self.tickmarkStyle = TickmarkStyleNone;
 		self.majorTickmarkShape = TickmarkShapeRectangular;
 		self.minorTickmarkShape = TickmarkShapeRectangular;
 
@@ -98,6 +98,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
         self.showDailyMessage = YES;
         self.batteryCenter = NO;
         self.romanNumerals = YES;
+        self.romanBattery = NO;
 		
 		[self refreshTheme];
 		
@@ -292,7 +293,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
         NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
         
         NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%.0f%%", watchBatteryPercentage * 100] uppercaseString] attributes:attribs];
-        if (self.romanNumerals) {
+        if (self.romanBattery) {
             labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%@%%", [self romain:watchBatteryPercentage * 100]] uppercaseString] attributes:attribs];
         }
         
@@ -536,7 +537,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
         
         NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%.0f%%", watchBatteryPercentage * 100] uppercaseString] attributes:attribs];
         
-        if (self.romanNumerals) {
+        if (self.romanBattery) {
             labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%@%%", [self romain:watchBatteryPercentage * 100]] uppercaseString] attributes:attribs];
         }
         
