@@ -21,6 +21,7 @@
 		B0D30AFF216D5B2700444765 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D30AFE216D5B2700444765 /* ExtensionDelegate.m */; };
 		B0D30B01216D5B2800444765 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0D30B00216D5B2800444765 /* Assets.xcassets */; };
 		B0D30B14216D5C6A00444765 /* FaceScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B0D30B13216D5C6A00444765 /* FaceScene.sks */; };
+		B0D4F2B72172164B00F497E0 /* FaceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D4F2B62172164B00F497E0 /* FaceWindow.m */; };
 		B0EB72EC216E69AA0098CF27 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B0EB72EB216E69AA0098CF27 /* AppDelegate.m */; };
 		B0EB72F6216E69AA0098CF27 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0EB72F5216E69AA0098CF27 /* ViewController.m */; };
 		B0EB72F8216E69AB0098CF27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0EB72F7216E69AB0098CF27 /* Assets.xcassets */; };
@@ -97,6 +98,8 @@
 		B0D30B00216D5B2800444765 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B0D30B02216D5B2800444765 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B0D30B13216D5C6A00444765 /* FaceScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FaceScene.sks; sourceTree = "<group>"; };
+		B0D4F2B52172164B00F497E0 /* FaceWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceWindow.h; sourceTree = "<group>"; };
+		B0D4F2B62172164B00F497E0 /* FaceWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceWindow.m; sourceTree = "<group>"; };
 		B0EB72E3216E3C350098CF27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B0EB72E8216E69AA0098CF27 /* DesktopShim.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesktopShim.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0EB72EA216E69AA0098CF27 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -209,6 +212,8 @@
 				B0EB72EB216E69AA0098CF27 /* AppDelegate.m */,
 				B0EB72F4216E69AA0098CF27 /* ViewController.h */,
 				B0EB72F5216E69AA0098CF27 /* ViewController.m */,
+				B0D4F2B52172164B00F497E0 /* FaceWindow.h */,
+				B0D4F2B62172164B00F497E0 /* FaceWindow.m */,
 				B0EB72F7216E69AB0098CF27 /* Assets.xcassets */,
 				B0EB72F9216E69AB0098CF27 /* Main.storyboard */,
 				B0EB72FC216E69AB0098CF27 /* Info.plist */,
@@ -225,11 +230,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0D30B0D216D5B2800444765 /* Build configuration list for PBXNativeTarget "SpriteKitWatchFace" */;
 			buildPhases = (
-				FE965DE221702233008F96B7 /* Increment Build Number */,
 				B0D30ACC216D5B2500444765 /* Sources */,
 				B0D30ACD216D5B2500444765 /* Frameworks */,
 				B0D30ACE216D5B2500444765 /* Resources */,
 				B0D30B0C216D5B2800444765 /* Embed Watch Content */,
+				B066722F2171171E00FC149F /* Increment Build Number */,
 			);
 			buildRules = (
 			);
@@ -245,9 +250,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0D30B09216D5B2800444765 /* Build configuration list for PBXNativeTarget "SpriteKitWatchFace WatchKit App" */;
 			buildPhases = (
-				FE965DE121702223008F96B7 /* Increment Build Number */,
 				B0D30AE4216D5B2700444765 /* Resources */,
 				B0D30B08216D5B2800444765 /* Embed App Extensions */,
+				B06672312171174800FC149F /* Increment Build Number */,
 			);
 			buildRules = (
 			);
@@ -263,10 +268,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0D30B05216D5B2800444765 /* Build configuration list for PBXNativeTarget "SpriteKitWatchFace WatchKit Extension" */;
 			buildPhases = (
-				FE965DE02170220A008F96B7 /* Increment Build Number */,
 				B0D30AF1216D5B2700444765 /* Sources */,
 				B0D30AF2216D5B2700444765 /* Frameworks */,
 				B0D30AF3216D5B2700444765 /* Resources */,
+				B06672322171177F00FC149F /* Increment Build Number */,
 			);
 			buildRules = (
 			);
@@ -381,7 +386,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		FE965DE02170220A008F96B7 /* Increment Build Number */ = {
+		B066722F2171171E00FC149F /* Increment Build Number */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -399,7 +404,7 @@
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
 		};
-		FE965DE121702223008F96B7 /* Increment Build Number */ = {
+		B06672312171174800FC149F /* Increment Build Number */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -417,7 +422,7 @@
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
 		};
-		FE965DE221702233008F96B7 /* Increment Build Number */ = {
+		B06672322171177F00FC149F /* Increment Build Number */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -463,6 +468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0EB72F6216E69AA0098CF27 /* ViewController.m in Sources */,
+				B0D4F2B72172164B00F497E0 /* FaceWindow.m in Sources */,
 				B0EB72FE216E69AB0098CF27 /* main.m in Sources */,
 				B0EB72EC216E69AA0098CF27 /* AppDelegate.m in Sources */,
 				B0EB7308216E6C380098CF27 /* FaceScene.m in Sources */,
@@ -637,7 +643,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6578A826QL;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -649,7 +655,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
 			};
 			name = Debug;
 		};
@@ -658,7 +664,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6578A826QL;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -670,7 +676,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
 			};
 			name = Release;
 		};
@@ -679,7 +685,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6578A826QL;
 				IBSC_MODULE = SpriteKitWatchFace_WatchKit_Extension;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace.watchkitapp;
@@ -687,7 +693,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
 			};
 			name = Debug;
 		};
@@ -696,7 +702,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6578A826QL;
 				IBSC_MODULE = SpriteKitWatchFace_WatchKit_Extension;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace.watchkitapp;
@@ -704,7 +710,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.3;
 			};
 			name = Release;
 		};
@@ -713,7 +719,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6578A826QL;
 				INFOPLIST_FILE = SpriteKitWatchFace/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -730,7 +736,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6578A826QL;
 				INFOPLIST_FILE = SpriteKitWatchFace/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -750,7 +756,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6578A826QL;
 				INFOPLIST_FILE = DesktopShim/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -771,7 +777,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6578A826QL;
 				INFOPLIST_FILE = DesktopShim/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -28,8 +28,16 @@
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
 	
-	FaceScene *scene = [FaceScene nodeWithFileNamed:@"FaceScene"];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"Theme":@(ThemeMarques)}];
 
+	FaceScene *scene = [FaceScene nodeWithFileNamed:@"FaceScene"];
+	
+	CGSize currentDeviceSize = [WKInterfaceDevice currentDevice].screenBounds.size;
+	
+	/* Using the 44mm Apple Watch as the base size, scale down to fit */
+	scene.camera.xScale = (184.0/currentDeviceSize.width);
+	scene.camera.yScale = (184.0/currentDeviceSize.width);
+	
 	[self.scene presentScene:scene];
 }
 
@@ -44,6 +52,9 @@
 		if ([view isKindOfClass:NSClassFromString(@"SPFullScreenView")])
 			[[[view timeLabel] layer] setOpacity:0];
 	}
+	
+	self.crownSequencer.delegate = self;
+	[self.crownSequencer focus];
 }
 
 - (void)willActivate {
@@ -54,6 +65,33 @@
 - (void)didDeactivate {
     // This method is called when watch view controller is no longer visible
     [super didDeactivate];
+}
+
+#pragma mark -
+
+CGFloat totalRotation = 0;
+
+- (void)crownDidRotate:(nullable WKCrownSequencer *)crownSequencer rotationalDelta:(double)rotationalDelta
+{
+	int direction = 1;
+	totalRotation += fabs(rotationalDelta);
+	
+	if (rotationalDelta < 0)
+		direction = -1;
+	
+	if (totalRotation > (M_PI_4/2))
+	{
+		FaceScene *scene = (FaceScene *)self.scene.scene;
+		
+		if ((scene.theme+direction > 0) && (scene.theme+direction < ThemeMAX))
+			scene.theme += direction;
+		else
+			scene.theme = 0;
+		
+		[scene refreshTheme];
+		
+		totalRotation = 0;
+	}
 }
 
 @end
