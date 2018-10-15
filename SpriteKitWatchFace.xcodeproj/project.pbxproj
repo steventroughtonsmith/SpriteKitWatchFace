@@ -34,6 +34,7 @@
 		FE13264121743C7A003E54EC /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE13264021743C7A003E54EC /* RoundedView.swift */; };
 		FE13264421744146003E54EC /* ThemesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE13264321744146003E54EC /* ThemesTableViewController.m */; };
 		FE8B39DB2174317C0097622D /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE8B39DA2174317C0097622D /* WatchConnectivity.framework */; };
+		FEDEDC34217458400087957E /* WatchFaceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDEDC33217458400087957E /* WatchFaceTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,8 @@
 		FE13264221744146003E54EC /* ThemesTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesTableViewController.h; sourceTree = "<group>"; };
 		FE13264321744146003E54EC /* ThemesTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThemesTableViewController.m; sourceTree = "<group>"; };
 		FE8B39DA2174317C0097622D /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
+		FEDEDC32217458400087957E /* WatchFaceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WatchFaceTableViewCell.h; sourceTree = "<group>"; };
+		FEDEDC33217458400087957E /* WatchFaceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WatchFaceTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +192,8 @@
 				FE13263F21743C79003E54EC /* SpriteKitWatchFace-Bridging-Header.h */,
 				FE13264221744146003E54EC /* ThemesTableViewController.h */,
 				FE13264321744146003E54EC /* ThemesTableViewController.m */,
+				FEDEDC32217458400087957E /* WatchFaceTableViewCell.h */,
+				FEDEDC33217458400087957E /* WatchFaceTableViewCell.m */,
 			);
 			path = SpriteKitWatchFace;
 			sourceTree = "<group>";
@@ -474,6 +479,7 @@
 				FE13264421744146003E54EC /* ThemesTableViewController.m in Sources */,
 				B0D30AD8216D5B2500444765 /* ViewController.m in Sources */,
 				B0D30AE3216D5B2700444765 /* main.m in Sources */,
+				FEDEDC34217458400087957E /* WatchFaceTableViewCell.m in Sources */,
 				B0D30AD5216D5B2500444765 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
