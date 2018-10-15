@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WatchConnectivity/WatchConnectivity.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,5 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, retain) NSIndexPath* numberTextPath;
 
 @end
+
+static WCSession *session;
 
 NS_ASSUME_NONNULL_END

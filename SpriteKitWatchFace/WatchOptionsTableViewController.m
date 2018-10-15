@@ -8,7 +8,7 @@
 
 #import "WatchOptionsTableViewController.h"
 
-@interface WatchOptionsTableViewController ()
+@interface WatchOptionsTableViewController () <WCSessionDelegate>
 
 @end
 
@@ -16,13 +16,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if ([WCSession isSupported]) {
+        session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+//    if ([WCSession isSupported]) {
+//        session.delegate = self;
+//        [session deactivate];
+//    }
+//}
 
 #pragma mark - Table view data source
 
@@ -35,6 +43,19 @@
         }
         if([self.watchFacePath isEqual:indexPath]) {
              self.watchFacePath = indexPath;
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"faceChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+               replyHandler:^(NSDictionary *reply) {
+                   //handle reply from iPhone app here
+               }
+               errorHandler:^(NSError *error) {
+                   //catch any errors here
+               }
+             ];
         }
         else {
             UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];

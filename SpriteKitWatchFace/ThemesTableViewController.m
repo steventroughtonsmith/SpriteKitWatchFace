@@ -41,7 +41,7 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 
     NSString *counterString = [NSString stringWithFormat:@"%@", [cell.textLabel.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
-    NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"counterValue"]];
+    NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"themeChange"]];
     
     [[WCSession defaultSession] sendMessage:applicationData
                                replyHandler:^(NSDictionary *reply) {

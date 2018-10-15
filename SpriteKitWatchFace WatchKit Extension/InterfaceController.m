@@ -100,15 +100,27 @@ CGFloat totalRotation = 0;
 }
 
 - (void)session:(nonnull WCSession *)session didReceiveMessage:(nonnull NSDictionary<NSString *,id> *)message replyHandler:(nonnull void (^)(NSDictionary<NSString *,id> * __nonnull))replyHandler {
-    NSArray *themes = @[@"ThemeHermesPink", @"ThemeHermesOrange", @"ThemeNavy", @"ThemeTidepod", @"ThemeBretonnia", @"ThemeNoir", @"ThemeContrast", @"ThemeVictoire", @"ThemeLiquid", @"ThemeAngler", @"ThemeSculley", @"ThemeKitty", @"ThemeDelay", @"ThemeDiesel", @"ThemeLuxe", @"ThemeSage", @"ThemeBondi", @"ThemeTangerine", @"ThemeStrawberry", @"ThemePawn", @"ThemeRoyal", @"ThemeMarques", @"ThemeVox", @"ThemeSummer", @"ThemeMAX"];
-    int key = [themes indexOfObject:[NSString stringWithFormat:@"Theme%@", [message objectForKey:@"counterValue"]]];
-    
-    FaceScene *scene = (FaceScene *)self.scene.scene;
-
-    scene.theme = key;
-    
-    
-    [scene refreshTheme];
+    if ([message objectForKey:@"themeChange"]) {
+        NSArray *themes = @[@"ThemeHermesPink", @"ThemeHermesOrange", @"ThemeNavy", @"ThemeTidepod", @"ThemeBretonnia", @"ThemeNoir", @"ThemeContrast", @"ThemeVictoire", @"ThemeLiquid", @"ThemeAngler", @"ThemeSculley", @"ThemeKitty", @"ThemeDelay", @"ThemeDiesel", @"ThemeLuxe", @"ThemeSage", @"ThemeBondi", @"ThemeTangerine", @"ThemeStrawberry", @"ThemePawn", @"ThemeRoyal", @"ThemeMarques", @"ThemeVox", @"ThemeSummer", @"ThemeMAX"];
+        int key = [themes indexOfObject:[NSString stringWithFormat:@"Theme%@", [message objectForKey:@"themeChange"]]];
+        
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.theme = key;
+        
+        
+        [scene refreshTheme];
+    } else if ([message objectForKey:@"faceChange"]) {
+        FaceStyle face = (FaceStyle)[NSString stringWithFormat:@"FaceStyle%@", [[message objectForKey:@"faceChange"] stringByReplacingOccurrencesOfString:@" Face" withString:@""]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.faceStyle = face;
+        
+        
+        [scene refreshTheme];
+    } else {
+        
+    }
 }
 
 @end
