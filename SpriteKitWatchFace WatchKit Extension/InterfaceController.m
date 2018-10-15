@@ -158,6 +158,38 @@ CGFloat totalRotation = 0;
         
         
         [scene refreshTheme];
+    }  else if ([message objectForKey:@"complicationChange"]) {
+        NSString *complicationType = [NSString stringWithFormat:@"%@", [message objectForKey:@"complicationChange"]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        if ([complicationType isEqual: @"All"]) {
+            scene.showWeather = YES;
+            scene.showDate = YES;
+            scene.showBattery = YES;
+        } else if ([complicationType isEqual:@"Battery"]) {
+            scene.showWeather = NO;
+            scene.showDate = NO;
+            scene.showBattery = YES;
+        } else if ([complicationType isEqual:@"Date"]) {
+            scene.showWeather = NO;
+            scene.showDate = YES;
+            scene.showBattery = NO;
+        } else if ([complicationType isEqual:@"Weather"]) {
+            scene.showWeather = YES;
+            scene.showDate = NO;
+            scene.showBattery = NO;
+        } else if ([complicationType isEqual:@"None"]) {
+            scene.showWeather = NO;
+            scene.showDate = NO;
+            scene.showBattery = NO;
+        } else {
+            scene.showWeather = NO;
+            scene.showDate = NO;
+            scene.showBattery = NO;
+        }
+        
+        
+        [scene refreshTheme];
     } else {
         
     }

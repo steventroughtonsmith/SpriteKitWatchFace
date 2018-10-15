@@ -313,6 +313,35 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
         [faceMarkings addChild:numberLabel];
     }
     
+    if (self.showWeather)
+    {
+        
+        NSURLSession *aSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        [[aSession dataTaskWithURL:[NSURL URLWithString:@"https://custom-y7ru.frb.io/"] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (((NSHTTPURLResponse *)response).statusCode == 200) {
+                if (data) {
+                    NSString *contentOfURL = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    NSLog(@"%@", contentOfURL);
+                    CGFloat h = 18;
+                    
+                    NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:h weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
+                    
+                    NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[NSString stringWithFormat:@"%@", contentOfURL] uppercaseString] attributes:attribs];
+                    
+                    SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
+                    CGFloat numeralDelta = 0.0;
+                    
+                    if (self.numeralStyle == NumeralStyleNone)
+                        numeralDelta = 10.0;
+                    
+                    numberLabel.position = CGPointMake(0+numeralDelta, 40);
+                    
+                    [faceMarkings addChild:numberLabel];
+                }
+            }
+        }] resume];
+    }
+    
 //    if (self.showDailyMessage)
 //    {
 ////        [WKInterfaceDevice currentDevice].batteryMonitoringEnabled = YES;

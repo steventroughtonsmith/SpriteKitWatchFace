@@ -75,7 +75,43 @@
              ];
         }
     } else if ([indexPath section] == 1) {
-        // Figure out complications.
+        if(self.complicationsPath && ![self.complicationsPath isEqual:indexPath]) {
+            UITableViewCell* uncheckCell = [tableView cellForRowAtIndexPath:self.complicationsPath];
+            uncheckCell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        if([self.complicationsPath isEqual:indexPath]) {
+            self.complicationsPath = indexPath;
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"complicationChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
+        }
+        else {
+            UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            self.complicationsPath = indexPath;
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"complicationChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
+        }
     } else if ([indexPath section] == 2) {
         if(self.tickMarksPath && ![self.tickMarksPath isEqual:indexPath]) {
             UITableViewCell* uncheckCell = [tableView cellForRowAtIndexPath:self.tickMarksPath];

@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSIndexPath* colorRegionPath;
     NSIndexPath* numberStylePath;
     NSIndexPath* numberTextPath;
+    NSIndexPath* complicationsPath;
 }
 
 @property (nonatomic, retain) NSIndexPath* watchFacePath;
@@ -24,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, retain) NSIndexPath* colorRegionPath;
 @property (nonatomic, retain) NSIndexPath* numberStylePath;
 @property (nonatomic, retain) NSIndexPath* numberTextPath;
+@property (nonatomic, retain) NSIndexPath* complicationsPath;
 
 @end
 
