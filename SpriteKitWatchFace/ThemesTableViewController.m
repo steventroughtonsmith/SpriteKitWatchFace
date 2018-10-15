@@ -40,7 +40,7 @@
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 
-    NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+    NSString *counterString = [NSString stringWithFormat:@"%@", [cell.textLabel.text stringByReplacingOccurrencesOfString:@" " withString:@""]];
     NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"counterValue"]];
     
     [[WCSession defaultSession] sendMessage:applicationData
