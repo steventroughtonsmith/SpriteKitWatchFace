@@ -61,6 +61,18 @@
             UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             self.watchFacePath = indexPath;
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"faceChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
         }
     } else if ([indexPath section] == 1) {
         // Figure out complications.

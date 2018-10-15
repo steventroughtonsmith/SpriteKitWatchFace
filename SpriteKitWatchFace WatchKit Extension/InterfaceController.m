@@ -111,10 +111,11 @@ CGFloat totalRotation = 0;
         
         [scene refreshTheme];
     } else if ([message objectForKey:@"faceChange"]) {
-        FaceStyle face = (FaceStyle)[NSString stringWithFormat:@"FaceStyle%@", [[message objectForKey:@"faceChange"] stringByReplacingOccurrencesOfString:@" Face" withString:@""]];
+        NSArray *faceStyles = @[@"FaceStyleRound", @"FaceStyleRectangular", @"FaceStyleMAX"];
+        int key = [faceStyles indexOfObject:[NSString stringWithFormat:@"FaceStyle%@", [[message objectForKey:@"faceChange"] stringByReplacingOccurrencesOfString:@" Face" withString:@""]]];
         FaceScene *scene = (FaceScene *)self.scene.scene;
         
-        scene.faceStyle = face;
+        scene.faceStyle = key;
         
         
         [scene refreshTheme];
