@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "S4Numbers.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "BackgroundAlignment.png",
       "scale" : "2x"
     },
     {

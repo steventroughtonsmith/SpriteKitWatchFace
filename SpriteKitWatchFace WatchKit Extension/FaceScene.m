@@ -85,18 +85,27 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		self.faceSize = (CGSize){184, 224};
 
 		self.theme = [[NSUserDefaults standardUserDefaults] integerForKey:@"Theme"];
-		self.useProgrammaticLayout = YES;
+		self.useBackgroundImageOverlay = NO;
 		self.faceStyle = FaceStyleRound;
 		self.numeralStyle = NumeralStyleAll;
 		self.tickmarkStyle = TickmarkStyleAll;
 		self.majorTickmarkShape = TickmarkShapeRectangular;
 		self.minorTickmarkShape = TickmarkShapeRectangular;
+		
+		self.majorTickHeight = 6;
+		self.majorTickWidth = 2;
 
 		self.colorRegionStyle = ColorRegionStyleDynamicDuo;
-		self.showDate = YES;
-        self.showLogo = NO;
+		
+		self.dateStyle = DateStyleDayDate;
+		self.dateQuadrant = DateQuadrantRight;
+
+    self.showLogo = NO;
 		
 		[self refreshTheme];
+		
+		NSLog(@"Permutations per theme = %lu", FaceStyleMAX*NumeralStyleMAX*TickmarkStyleMAX*(TickmarkShapeMAX*2)*ColorRegionStyleMAX*DateStyleMAX*CenterDiscStyleMAX*DateQuadrantMAX);
+		NSLog(@"Total permutations = %lu", ThemeMAX*FaceStyleMAX*NumeralStyleMAX*TickmarkStyleMAX*(TickmarkShapeMAX*2)*ColorRegionStyleMAX*DateStyleMAX*CenterDiscStyleMAX*DateQuadrantMAX);
 		
 		self.delegate = self;
 	}
@@ -115,19 +124,84 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	
 	/* Hardcoded for 44mm Apple Watch */
 	
+	CGFloat shortTickHeight = 0;
+	
+	/* Minor */
+	for (int i = 0; i < 60; i++)
+	{
+		CGFloat angle = - (2*M_PI)/60.0 * i;
+		CGFloat workingRadius = self.faceSize.width/2;
+		shortTickHeight = workingRadius/20;
+		if (self.minorTickHeight > 0)
+			shortTickHeight = self.minorTickHeight;
+		
+		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.minorMarkColor size:CGSizeMake(1, shortTickHeight)];
+		
+		tick.position = CGPointZero;
+		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/shortTickHeight);
+		tick.zRotation = angle;
+		
+		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMinor || self.tickmarkStyle == TickmarkStyleStackMajor)
+		{
+			if ((self.tickmarkStyle == TickmarkStyleStackMajor) || (self.tickmarkStyle == TickmarkStyleMinor) || i % 5 != 0)
+			{
+				[faceMarkings addChild:tick];
+				
+				if (self.minorTickmarkShape == TickmarkShapeCircular)
+				{
+					tick.color = [SKColor clearColor];
+					
+					SKShapeNode *shapeNode = [SKShapeNode shapeNodeWithEllipseOfSize:CGSizeMake(3, 3)];
+					shapeNode.fillColor = self.minorMarkColor;
+					shapeNode.strokeColor = [SKColor clearColor];
+					shapeNode.position = CGPointMake(0, (workingRadius-margin)-shortTickHeight/2);
+					[tick addChild:shapeNode];
+				}
+				else if (self.minorTickmarkShape == TickmarkShapeTriangular)
+				{
+					tick.color = [SKColor clearColor];
+					
+					CGFloat triangleHeight = 2;
+					CGFloat triangleWidth = 2;
+					
+					if (self.numeralStyle == NumeralStyleNone)
+						triangleHeight = 4;
+					
+					CGPoint tp[3] = {CGPointMake(-(0.5 * triangleWidth), triangleHeight), CGPointMake(0, -triangleHeight), CGPointMake((0.5 * triangleWidth), triangleHeight)};
+					
+					SKShapeNode *shapeNode = [SKShapeNode shapeNodeWithPoints:tp count:3];
+					shapeNode.fillColor = self.minorMarkColor;
+					shapeNode.strokeColor = [SKColor clearColor];
+					shapeNode.position = CGPointMake(0, (workingRadius-margin)-triangleHeight);
+					[tick addChild:shapeNode];
+				}
+			}
+		}
+	}
+	
+	/* Major */
 	for (int i = 0; i < 12; i++)
 	{
 		CGFloat angle = -(2*M_PI)/12.0 * i;
 		CGFloat workingRadius = self.faceSize.width/2;
 		CGFloat longTickHeight = workingRadius/15;
+		if (self.majorTickHeight > 0)
+			longTickHeight = self.majorTickHeight;
 		
-		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.majorMarkColor size:CGSizeMake(2, longTickHeight)];
+		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.majorMarkColor size:CGSizeMake(self.majorTickWidth, longTickHeight)];
+		
+		if (self.tickmarkStyle == TickmarkStyleStackMajor)
+		{
+			workingRadius -= shortTickHeight + 2;
+		}
 		
 		tick.position = CGPointZero;
 		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/longTickHeight);
 		tick.zRotation = angle;
 		
-		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor)
+		
+		
+		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor || self.tickmarkStyle == TickmarkStyleStackMajor)
 		{
 			[faceMarkings addChild:tick];
 			
@@ -171,64 +245,30 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
 		numberLabel.position = CGPointMake((workingRadius-labelMargin) * -sin(angle), (workingRadius-labelMargin) * cos(angle) - 9);
 		
+		
 		if (self.numeralStyle == NumeralStyleAll || ((self.numeralStyle == NumeralStyleCardinal) && (i % 3 == 0)))
 			[faceMarkings addChild:numberLabel];
 	}
 	
-	for (int i = 0; i < 60; i++)
-	{
-		CGFloat angle = - (2*M_PI)/60.0 * i;
-		CGFloat workingRadius = self.faceSize.width/2;
-		CGFloat shortTickHeight = workingRadius/20;
-		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.minorMarkColor size:CGSizeMake(1, shortTickHeight)];
-		
-		tick.position = CGPointZero;
-		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/shortTickHeight);
-		tick.zRotation = angle;
-		
-		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMinor)
-		{
-			if (i % 5 != 0)
-			{
-				[faceMarkings addChild:tick];
-				
-				if (self.minorTickmarkShape == TickmarkShapeCircular)
-				{
-					tick.color = [SKColor clearColor];
-					
-					SKShapeNode *shapeNode = [SKShapeNode shapeNodeWithEllipseOfSize:CGSizeMake(3, 3)];
-					shapeNode.fillColor = self.minorMarkColor;
-					shapeNode.strokeColor = [SKColor clearColor];
-					shapeNode.position = CGPointMake(0, (workingRadius-margin)-shortTickHeight/2);
-					[tick addChild:shapeNode];
-				}
-				else if (self.minorTickmarkShape == TickmarkShapeTriangular)
-				{
-					tick.color = [SKColor clearColor];
-					
-					CGFloat triangleHeight = 2;
-					CGFloat triangleWidth = 2;
-					
-					if (self.numeralStyle == NumeralStyleNone)
-						triangleHeight = 4;
-					
-					CGPoint tp[3] = {CGPointMake(-(0.5 * triangleWidth), triangleHeight), CGPointMake(0, -triangleHeight), CGPointMake((0.5 * triangleWidth), triangleHeight)};
-					
-					SKShapeNode *shapeNode = [SKShapeNode shapeNodeWithPoints:tp count:3];
-					shapeNode.fillColor = self.minorMarkColor;
-					shapeNode.strokeColor = [SKColor clearColor];
-					shapeNode.position = CGPointMake(0, (workingRadius-margin)-triangleHeight);
-					[tick addChild:shapeNode];
-				}
-			}
-		}
-	}
 	
-	if (self.showDate)
+	
+	if (self.dateStyle != DateStyleNone)
 	{
 		NSDateFormatter * df = [[NSDateFormatter alloc] init];
 		[df setLocale:[[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] firstObject]]];
-		[df setDateFormat:@"ccc d"];
+		
+		if (self.dateStyle == DateStyleDay)
+		{
+			[df setDateFormat:@"ccc"];
+		}
+		else if (self.dateStyle == DateStyleDate)
+		{
+			[df setDateFormat:@"d"];
+		}
+		else if (self.dateStyle == DateStyleDayDate)
+		{
+			[df setDateFormat:@"ccc d"];
+		}
 		
 		CGFloat h = 12;
 		CGFloat numeralDelta = 0.0;
@@ -238,11 +278,19 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[df stringFromDate:[NSDate date]] uppercaseString] attributes:attribs];
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
-		
+		numberLabel.name = @"Date";
+
 		if (self.numeralStyle == NumeralStyleNone)
 			numeralDelta = 10.0;
 		
-		numberLabel.position = CGPointMake(32+numeralDelta, -4);
+		if (self.dateQuadrant == DateQuadrantRight)
+			numberLabel.position = CGPointMake(32+numeralDelta, -4);
+		else if (self.dateQuadrant == DateQuadrantLeft)
+			numberLabel.position = CGPointMake(-(32+numeralDelta), -4);
+		else if (self.dateQuadrant == DateQuadrantTop)
+			numberLabel.position = CGPointMake(0, (36+numeralDelta));
+		else if (self.dateQuadrant == DateQuadrantBottom)
+			numberLabel.position = CGPointMake(0, -(44+numeralDelta));
 		
 		[faceMarkings addChild:numberLabel];
 	}
@@ -273,7 +321,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	
 	SKCropNode *faceMarkings = [SKCropNode node];
 	faceMarkings.name = layerName;
-	
+
 	/* Major */
 	for (int i = 0; i < 12; i++)
 	{
@@ -281,7 +329,15 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		CGFloat workingRadius = workingRadiusForFaceOfSizeWithAngle(self.faceSize, angle);
 		CGFloat longTickHeight = workingRadius/10.0;
 		
-		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.majorMarkColor size:CGSizeMake(2, longTickHeight)];
+		if (self.majorTickHeight > 0)
+			longTickHeight = self.majorTickHeight;
+		
+		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.majorMarkColor size:CGSizeMake(self.majorTickWidth, longTickHeight)];
+		
+		if (self.tickmarkStyle == TickmarkStyleStackMajor)
+		{
+			workingRadius -= longTickHeight;
+		}
 		
 		tick.position = CGPointZero;
 		tick.anchorPoint = CGPointMake(0.5, (workingRadius-margin)/longTickHeight);
@@ -289,7 +345,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		tick.zPosition = 0;
 		
-		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor)
+		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMajor || self.tickmarkStyle == TickmarkStyleStackMajor)
 		{
 			[faceMarkings addChild:tick];
 		
@@ -332,6 +388,10 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		CGFloat angle =  (2*M_PI)/60.0 * i;
 		CGFloat workingRadius = workingRadiusForFaceOfSizeWithAngle(self.faceSize, angle);
 		CGFloat shortTickHeight = workingRadius/20;
+		
+		if (self.minorTickHeight > 0)
+			shortTickHeight = self.minorTickHeight;
+		
 		SKSpriteNode *tick = [SKSpriteNode spriteNodeWithColor:self.minorMarkColor size:CGSizeMake(1, shortTickHeight)];
 		
 		/* Super hacky hack to inset the tickmarks at the four corners of a curved display instead of doing math */
@@ -346,9 +406,9 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		
 		tick.zPosition = 0;
 		
-		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMinor)
+		if (self.tickmarkStyle == TickmarkStyleAll || self.tickmarkStyle == TickmarkStyleMinor || self.tickmarkStyle == TickmarkStyleStackMajor)
 		{
-			if (i % 5 != 0)
+			if ((self.tickmarkStyle == TickmarkStyleStackMajor) || (self.tickmarkStyle == TickmarkStyleMinor) || i % 5 != 0)
 			{
 				[faceMarkings addChild:tick];
 				
@@ -415,11 +475,23 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 			[labelNode addChild:numberLabel];
 	}
 	
-	if (self.showDate)
+	if (self.dateStyle != DateStyleNone)
 	{
 		NSDateFormatter * df = [[NSDateFormatter alloc] init];
 		[df setLocale:[[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] firstObject]]];
-		[df setDateFormat:@"ccc d"];
+		
+		if (self.dateStyle == DateStyleDay)
+		{
+			[df setDateFormat:@"ccc"];
+		}
+		else if (self.dateStyle == DateStyleDate)
+		{
+			[df setDateFormat:@"d"];
+		}
+		else if (self.dateStyle == DateStyleDayDate)
+		{
+			[df setDateFormat:@"ccc d"];
+		}
 		
 		CGFloat h = 12;
 		
@@ -428,13 +500,21 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[df stringFromDate:[NSDate date]] uppercaseString] attributes:attribs];
 		
 		SKLabelNode *numberLabel = [SKLabelNode labelNodeWithAttributedText:labelText];
+		numberLabel.name = @"Date";
 		CGFloat numeralDelta = 0.0;
 		
 		if (self.numeralStyle == NumeralStyleNone)
 			numeralDelta = 10.0;
 		
-		numberLabel.position = CGPointMake(32+numeralDelta, -4);
-		
+		if (self.dateQuadrant == DateQuadrantRight)
+			numberLabel.position = CGPointMake(32+numeralDelta, -4);
+		else if (self.dateQuadrant == DateQuadrantLeft)
+			numberLabel.position = CGPointMake(-(32+numeralDelta), -4);
+		else if (self.dateQuadrant == DateQuadrantTop)
+			numberLabel.position = CGPointMake(0, (36+numeralDelta));
+		else if (self.dateQuadrant == DateQuadrantBottom)
+			numberLabel.position = CGPointMake(0, -(44+numeralDelta));
+
 		[faceMarkings addChild:numberLabel];
 	}
     
@@ -453,6 +533,40 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
     }
 	
 	[self addChild:faceMarkings];
+}
+
+-(void)updateDate
+{
+	if (self.dateStyle != DateStyleNone)
+	{
+		NSDateFormatter * df = [[NSDateFormatter alloc] init];
+		[df setLocale:[[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] firstObject]]];
+		
+		if (self.dateStyle == DateStyleDay)
+		{
+			[df setDateFormat:@"ccc"];
+		}
+		else if (self.dateStyle == DateStyleDate)
+		{
+			[df setDateFormat:@"d"];
+		}
+		else if (self.dateStyle == DateStyleDayDate)
+		{
+			[df setDateFormat:@"ccc d"];
+		}
+		
+		CGFloat dateFontSize = 12;
+		
+		NSDictionary *attribs = @{NSFontAttributeName : [[NSFont systemFontOfSize:dateFontSize weight:NSFontWeightMedium] smallCaps], NSForegroundColorAttributeName : self.textColor};
+		
+		NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:[[df stringFromDate:[NSDate date]] uppercaseString] attributes:attribs];
+
+		SKLabelNode *dateLabelA = (SKLabelNode *)[[self childNodeWithName:@"Markings"] childNodeWithName:@"Date"];
+		dateLabelA.attributedText = labelText;
+		
+		SKLabelNode *dateLabelB = (SKLabelNode *)[[self childNodeWithName:@"Markings Alternate"] childNodeWithName:@"Date"];
+		dateLabelB.attributedText = labelText;
+	}
 }
 
 #pragma mark -
@@ -842,7 +956,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	SKSpriteNode *secondHand = (SKSpriteNode *)[face childNodeWithName:@"Seconds"];
 	SKSpriteNode *colorRegion = (SKSpriteNode *)[face childNodeWithName:@"Color Region"];
 	SKSpriteNode *colorRegionReflection = (SKSpriteNode *)[face childNodeWithName:@"Color Region Reflection"];
-	SKSpriteNode *numbers = (SKSpriteNode *)[face childNodeWithName:@"Numbers"];
+	SKSpriteNode *staticImageLayer = (SKSpriteNode *)[[face childNodeWithName:@"Image Root"] childNodeWithName:@"Static Image Layer"];
 	
 	SKSpriteNode *centerDisc = (SKSpriteNode *)[face childNodeWithName:@"Center Disc"];
 
@@ -860,8 +974,8 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	colorRegion.color = self.colorRegionColor;
 	colorRegion.colorBlendFactor = 1.0;
 	
-	numbers.color = self.textColor;
-	numbers.colorBlendFactor = 1.0;
+	staticImageLayer.color = self.textColor;
+	staticImageLayer.colorBlendFactor = 1.0;
 	
 	hourHandInlay.color = self.inlayColor;
 	hourHandInlay.colorBlendFactor = 1.0;
@@ -921,27 +1035,18 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		colorRegionReflection.size = CGSizeMake(368*colorRegionScale, 448*colorRegionScale);
 	}
 	
-	SKSpriteNode *numbersLayer = (SKSpriteNode *)[face childNodeWithName:@"Numbers"];
-
-	if (self.useProgrammaticLayout)
+	staticImageLayer.alpha = self.useBackgroundImageOverlay ? 1.0 : 0.0;
+	
+	if (self.faceStyle == FaceStyleRound)
 	{
-		numbersLayer.alpha = 0;
-		
-		if (self.faceStyle == FaceStyleRound)
-		{
-			[self setupTickmarksForRoundFaceWithLayerName:@"Markings"];
-		}
-		else
-		{
-			[self setupTickmarksForRectangularFaceWithLayerName:@"Markings"];
-		}
+		[self setupTickmarksForRoundFaceWithLayerName:@"Markings"];
 	}
 	else
 	{
-		numbersLayer.alpha = 1;
+		[self setupTickmarksForRectangularFaceWithLayerName:@"Markings"];
 	}
 	
-	if (self.showCenterDisc)
+	if (self.centerDiscStyle == CenterDiscStyleEnabled)
 	{
 		centerDisc.alpha = 1.0;
 	}
@@ -988,6 +1093,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 - (void)update:(NSTimeInterval)currentTime forScene:(SKScene *)scene
 {
 	[self updateHands];
+	[self updateDate];
 }
 
 -(void)updateHands
@@ -1126,11 +1232,58 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	}
 	else if (key == 'd')
 	{
-		self.showDate = !self.showDate;
+		if ((self.dateStyle+1 > 0) && (self.dateStyle+1 < DateStyleMAX))
+			self.dateStyle ++;
+		else
+			self.dateStyle = 0;
+	}
+	else if (key == 'q')
+	{
+		if ((self.dateQuadrant+1 > 0) && (self.dateQuadrant+1 < DateQuadrantMAX))
+			self.dateQuadrant ++;
+		else
+			self.dateQuadrant = 0;
 	}
 	else if (key == 'c')
 	{
-		self.showCenterDisc = !self.showCenterDisc;
+		if ((self.centerDiscStyle+1 > 0) && (self.centerDiscStyle+1 < CenterDiscStyleMAX))
+			self.centerDiscStyle ++;
+		else
+			self.centerDiscStyle = 0;
+	}
+	else if (key == 'p')
+	{
+		self.useBackgroundImageOverlay = !self.useBackgroundImageOverlay;
+	}
+	else if (key == 'x')
+	{
+		
+		self.theme = arc4random()%ThemeMAX;
+		self.faceStyle = arc4random()%FaceStyleMAX;
+		self.numeralStyle = arc4random()%NumeralStyleMAX;
+		self.tickmarkStyle = arc4random()%TickmarkStyleMAX;
+		self.minorTickmarkShape = arc4random()%TickmarkShapeMAX;
+		self.majorTickmarkShape = arc4random()%TickmarkShapeMAX;
+		self.colorRegionStyle = arc4random()%ColorRegionStyleMAX;
+
+		self.dateStyle = arc4random()%DateStyleMAX;
+		self.dateQuadrant = arc4random()%DateQuadrantMAX;
+
+		self.centerDiscStyle = arc4random()%CenterDiscStyleMAX;
+	}
+	else if (key == 'z')
+	{
+		self.faceStyle = arc4random()%FaceStyleMAX;
+		self.numeralStyle = arc4random()%NumeralStyleMAX;
+		self.tickmarkStyle = arc4random()%TickmarkStyleMAX;
+		self.minorTickmarkShape = arc4random()%TickmarkShapeMAX;
+		self.majorTickmarkShape = arc4random()%TickmarkShapeMAX;
+		self.colorRegionStyle = arc4random()%ColorRegionStyleMAX;
+		
+		self.dateStyle = arc4random()%DateStyleMAX;
+		self.dateQuadrant = arc4random()%DateQuadrantMAX;
+		
+		self.centerDiscStyle = arc4random()%CenterDiscStyleMAX;
 	}
 	
 	[self refreshTheme];
