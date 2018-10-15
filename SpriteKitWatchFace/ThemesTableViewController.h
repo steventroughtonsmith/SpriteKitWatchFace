@@ -1,16 +1,14 @@
 //
-//  ViewController.h
+//  ThemesTableViewController.h
 //  SpriteKitWatchFace
 //
-//  Created by Steven Troughton-Smith on 09/10/2018.
+//  Created by Joseph Shenton on 15/10/18.
 //  Copyright © 2018 Steven Troughton-Smith. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <WatchConnectivity/WatchConnectivity.h>
 
-@interface ViewController : UIViewController
-
+@interface ThemesTableViewController : UITableViewController
 
 @end
-

@@ -60,6 +60,11 @@
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
+    if ([WCSession isSupported]) {
+        WCSession *session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
 }
 
 - (void)didDeactivate {
@@ -89,9 +94,21 @@ CGFloat totalRotation = 0;
 			scene.theme = 0;
 		
 		[scene refreshTheme];
-		
+        
 		totalRotation = 0;
 	}
+}
+
+- (void)session:(nonnull WCSession *)session didReceiveMessage:(nonnull NSDictionary<NSString *,id> *)message replyHandler:(nonnull void (^)(NSDictionary<NSString *,id> * __nonnull))replyHandler {
+    NSArray *themes = @[@"ThemeHermesPink", @"ThemeHermesOrange", @"ThemeNavy", @"ThemeTidepod", @"ThemeBretonnia", @"ThemeNoir", @"ThemeContrast", @"ThemeVictoire", @"ThemeLiquid", @"ThemeAngler", @"ThemeSculley", @"ThemeKitty", @"ThemeDelay", @"ThemeDiesel", @"ThemeLuxe", @"ThemeSage", @"ThemeBondi", @"ThemeTangerine", @"ThemeStrawberry", @"ThemePawn", @"ThemeRoyal", @"ThemeMarques", @"ThemeVox", @"ThemeSummer", @"ThemeMAX"];
+    int key = [themes indexOfObject:[NSString stringWithFormat:@"Theme%@", [message objectForKey:@"counterValue"]]];
+    
+    FaceScene *scene = (FaceScene *)self.scene.scene;
+
+    scene.theme = key;
+    
+    
+    [scene refreshTheme];
 }
 
 @end

@@ -31,6 +31,9 @@
 		B0EB7304216E69C40098CF27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0D30B00216D5B2800444765 /* Assets.xcassets */; };
 		B0EB7307216E6C380098CF27 /* FaceScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B0EB7306216E6C380098CF27 /* FaceScene.m */; };
 		B0EB7308216E6C380098CF27 /* FaceScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B0EB7306216E6C380098CF27 /* FaceScene.m */; };
+		FE13264121743C7A003E54EC /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE13264021743C7A003E54EC /* RoundedView.swift */; };
+		FE13264421744146003E54EC /* ThemesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE13264321744146003E54EC /* ThemesTableViewController.m */; };
+		FE8B39DB2174317C0097622D /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE8B39DA2174317C0097622D /* WatchConnectivity.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +116,11 @@
 		B0EB72FF216E69AB0098CF27 /* DesktopShim.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DesktopShim.entitlements; sourceTree = "<group>"; };
 		B0EB7305216E6C380098CF27 /* FaceScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceScene.h; sourceTree = "<group>"; };
 		B0EB7306216E6C380098CF27 /* FaceScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceScene.m; sourceTree = "<group>"; };
+		FE13263F21743C79003E54EC /* SpriteKitWatchFace-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SpriteKitWatchFace-Bridging-Header.h"; sourceTree = "<group>"; };
+		FE13264021743C7A003E54EC /* RoundedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
+		FE13264221744146003E54EC /* ThemesTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesTableViewController.h; sourceTree = "<group>"; };
+		FE13264321744146003E54EC /* ThemesTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThemesTableViewController.m; sourceTree = "<group>"; };
+		FE8B39DA2174317C0097622D /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE8B39DB2174317C0097622D /* WatchConnectivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +158,7 @@
 				B0D30AF9216D5B2700444765 /* SpriteKitWatchFace WatchKit Extension */,
 				B0EB72E9216E69AA0098CF27 /* DesktopShim */,
 				B0D30AD1216D5B2500444765 /* Products */,
+				FE8B39D92174317C0097622D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -170,11 +180,15 @@
 				B0D30AD4216D5B2500444765 /* AppDelegate.m */,
 				B0D30AD6216D5B2500444765 /* ViewController.h */,
 				B0D30AD7216D5B2500444765 /* ViewController.m */,
+				FE13264021743C7A003E54EC /* RoundedView.swift */,
 				B0D30AD9216D5B2500444765 /* Main.storyboard */,
 				B0D30ADC216D5B2700444765 /* Assets.xcassets */,
 				B0D30ADE216D5B2700444765 /* LaunchScreen.storyboard */,
 				B0D30AE1216D5B2700444765 /* Info.plist */,
 				B0D30AE2216D5B2700444765 /* main.m */,
+				FE13263F21743C79003E54EC /* SpriteKitWatchFace-Bridging-Header.h */,
+				FE13264221744146003E54EC /* ThemesTableViewController.h */,
+				FE13264321744146003E54EC /* ThemesTableViewController.m */,
 			);
 			path = SpriteKitWatchFace;
 			sourceTree = "<group>";
@@ -221,6 +235,14 @@
 				B0EB72FF216E69AB0098CF27 /* DesktopShim.entitlements */,
 			);
 			path = DesktopShim;
+			sourceTree = "<group>";
+		};
+		FE8B39D92174317C0097622D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE8B39DA2174317C0097622D /* WatchConnectivity.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,6 +332,7 @@
 				TargetAttributes = {
 					B0D30ACF216D5B2500444765 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1010;
 					};
 					B0D30AE5216D5B2700444765 = {
 						CreatedOnToolsVersion = 10.0;
@@ -447,6 +470,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE13264121743C7A003E54EC /* RoundedView.swift in Sources */,
+				FE13264421744146003E54EC /* ThemesTableViewController.m in Sources */,
 				B0D30AD8216D5B2500444765 /* ViewController.m in Sources */,
 				B0D30AE3216D5B2700444765 /* main.m in Sources */,
 				B0D30AD5216D5B2500444765 /* AppDelegate.m in Sources */,
@@ -718,6 +743,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6578A826QL;
 				INFOPLIST_FILE = SpriteKitWatchFace/Info.plist;
@@ -727,6 +753,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SpriteKitWatchFace/SpriteKitWatchFace-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -735,6 +764,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6578A826QL;
 				INFOPLIST_FILE = SpriteKitWatchFace/Info.plist;
@@ -744,6 +774,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SpriteKitWatchFace/SpriteKitWatchFace-Bridging-Header.h";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

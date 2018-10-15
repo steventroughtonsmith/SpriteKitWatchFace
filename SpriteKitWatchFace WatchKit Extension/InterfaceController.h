@@ -8,9 +8,10 @@
 
 #import <WatchKit/WatchKit.h>
 #import <Foundation/Foundation.h>
+#import <WatchConnectivity/WatchConnectivity.h>
 @import SpriteKit;
 
-@interface InterfaceController : WKInterfaceController <SKSceneDelegate, WKCrownDelegate>
+@interface InterfaceController : WKInterfaceController <WCSessionDelegate, SKSceneDelegate, WKCrownDelegate>
 
 @property IBOutlet WKInterfaceSKScene * scene;
 @end
