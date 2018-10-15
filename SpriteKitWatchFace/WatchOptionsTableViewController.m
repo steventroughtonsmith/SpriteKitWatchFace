@@ -159,11 +159,36 @@
         }
         if([self.numberStylePath isEqual:indexPath]) {
             self.numberStylePath = indexPath;
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"numberStyleChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
         }
         else {
             UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             self.numberStylePath = indexPath;
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"numberStyleChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
         }
     } else if ([indexPath section] == 5) {
         if(self.numberTextPath && ![self.numberTextPath isEqual:indexPath]) {
@@ -172,11 +197,36 @@
         }
         if([self.numberTextPath isEqual:indexPath]) {
             self.numberTextPath = indexPath;
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"numberTextChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
         }
         else {
             UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             self.numberTextPath = indexPath;
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"numberTextChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
         }
     } else {
         

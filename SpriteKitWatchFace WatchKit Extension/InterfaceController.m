@@ -137,6 +137,27 @@ CGFloat totalRotation = 0;
         
         
         [scene refreshTheme];
+    } else if ([message objectForKey:@"numberStyleChange"]) {
+        NSArray *faceStyles = @[@"NumeralStyleAll", @"NumeralStyleCardinal", @"NumeralStyleNone", @"NumeralStyleMAX"];
+        int key = [faceStyles indexOfObject:[NSString stringWithFormat:@"NumeralStyle%@", [[message objectForKey:@"numberStyleChange"] stringByReplacingOccurrencesOfString:@" " withString:@""]]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.numeralStyle = key;
+        
+        
+        [scene refreshTheme];
+    }  else if ([message objectForKey:@"numberTextChange"]) {
+        NSString *numberTextType = [NSString stringWithFormat:@"%@", [[[message objectForKey:@"numberTextChange"] stringByReplacingOccurrencesOfString:@" (I, II, III)" withString:@""] stringByReplacingOccurrencesOfString:@" (1, 2, 3)" withString:@""]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        if ([numberTextType  isEqual: @"Roman Numerals"]) {
+            scene.romanNumerals = YES;
+        } else {
+            scene.romanNumerals = NO;
+        }
+        
+        
+        [scene refreshTheme];
     } else {
         
     }
