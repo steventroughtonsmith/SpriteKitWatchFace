@@ -29,7 +29,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ([indexPath section] == 0) {
-        if(self.watchFacePath) {
+        if(self.watchFacePath && ![self.watchFacePath isEqual:indexPath]) {
             UITableViewCell* uncheckCell = [tableView cellForRowAtIndexPath:self.watchFacePath];
             uncheckCell.accessoryType = UITableViewCellAccessoryNone;
         }
@@ -44,7 +44,7 @@
     } else if ([indexPath section] == 1) {
         // Figure out complications.
     } else if ([indexPath section] == 2) {
-        if(self.tickMarksPath) {
+        if(self.tickMarksPath && ![self.tickMarksPath isEqual:indexPath]) {
             UITableViewCell* uncheckCell = [tableView cellForRowAtIndexPath:self.tickMarksPath];
             uncheckCell.accessoryType = UITableViewCellAccessoryNone;
         }
@@ -57,7 +57,7 @@
             self.tickMarksPath = indexPath;
         }
     } else if ([indexPath section] == 3) {
-        if(self.colorRegionPath) {
+        if(self.colorRegionPath && ![self.colorRegionPath isEqual:indexPath]) {
             UITableViewCell* uncheckCell = [tableView cellForRowAtIndexPath:self.colorRegionPath];
             uncheckCell.accessoryType = UITableViewCellAccessoryNone;
         }
@@ -70,7 +70,7 @@
             self.colorRegionPath = indexPath;
         }
     } else if ([indexPath section] == 4) {
-        if(self.numberStylePath) {
+        if(self.numberStylePath && ![self.numberStylePath isEqual:indexPath]) {
             UITableViewCell* uncheckCell = [tableView cellForRowAtIndexPath:self.numberStylePath];
             uncheckCell.accessoryType = UITableViewCellAccessoryNone;
         }
@@ -83,7 +83,7 @@
             self.numberStylePath = indexPath;
         }
     } else if ([indexPath section] == 5) {
-        if(self.numberTextPath) {
+        if(self.numberTextPath && ![self.numberTextPath isEqual:indexPath]) {
             UITableViewCell* uncheckCell = [tableView cellForRowAtIndexPath:self.numberTextPath];
             uncheckCell.accessoryType = UITableViewCellAccessoryNone;
         }
