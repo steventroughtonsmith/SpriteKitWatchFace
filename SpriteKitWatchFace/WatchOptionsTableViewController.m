@@ -42,7 +42,7 @@
             uncheckCell.accessoryType = UITableViewCellAccessoryNone;
         }
         if([self.watchFacePath isEqual:indexPath]) {
-             self.watchFacePath = indexPath;
+            self.watchFacePath = indexPath;
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
             NSLog(@"%@", counterString);
@@ -83,11 +83,36 @@
         }
         if([self.tickMarksPath isEqual:indexPath]) {
             self.tickMarksPath = indexPath;
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"tickmarkChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
         }
         else {
             UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             self.tickMarksPath = indexPath;
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"tickmarkChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
         }
     } else if ([indexPath section] == 3) {
         if(self.colorRegionPath && ![self.colorRegionPath isEqual:indexPath]) {
@@ -96,11 +121,36 @@
         }
         if([self.colorRegionPath isEqual:indexPath]) {
             self.colorRegionPath = indexPath;
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"colorRegionChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
         }
         else {
             UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             self.colorRegionPath = indexPath;
+            NSString *counterString = [NSString stringWithFormat:@"%@", cell.textLabel.text];
+            NSLog(@"%@", counterString);
+            NSDictionary *applicationData = [[NSDictionary alloc] initWithObjects:@[counterString] forKeys:@[@"colorRegionChange"]];
+            
+            [[WCSession defaultSession] sendMessage:applicationData
+                                       replyHandler:^(NSDictionary *reply) {
+                                           //handle reply from iPhone app here
+                                       }
+                                       errorHandler:^(NSError *error) {
+                                           //catch any errors here
+                                       }
+             ];
         }
     } else if ([indexPath section] == 4) {
         if(self.numberStylePath && ![self.numberStylePath isEqual:indexPath]) {

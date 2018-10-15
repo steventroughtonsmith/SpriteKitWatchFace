@@ -119,6 +119,24 @@ CGFloat totalRotation = 0;
         
         
         [scene refreshTheme];
+    }  else if ([message objectForKey:@"tickmarkChange"]) {
+        NSArray *faceStyles = @[@"TickmarkStyleAll", @"TickmarkStyleMajor", @"TickmarkStyleMinor", @"TickmarkStyleNone", @"TickmarkStyleMAX"];
+        int key = [faceStyles indexOfObject:[NSString stringWithFormat:@"TickmarkStyle%@", [message objectForKey:@"tickmarkChange"]]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.tickmarkStyle = key;
+        
+        
+        [scene refreshTheme];
+    }  else if ([message objectForKey:@"colorRegionChange"]) {
+        NSArray *faceStyles = @[@"ColorRegionStyleNone", @"ColorRegionStyleDynamicDuo", @"ColorRegionStyleHalf", @"ColorRegionStyleCircle", @"ColorRegionStyleRing", @"ColorRegionStyleMAX"];
+        int key = [faceStyles indexOfObject:[NSString stringWithFormat:@"ColorRegionStyle%@", [[message objectForKey:@"colorRegionChange"] stringByReplacingOccurrencesOfString:@" " withString:@""]]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.colorRegionStyle = key;
+        
+        
+        [scene refreshTheme];
     } else {
         
     }
