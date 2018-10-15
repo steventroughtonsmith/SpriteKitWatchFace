@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>SpriteKitWatchFace WatchKit Extension</string>
+	<string>Watchie WatchKit Extension</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>97</string>
+	<string>213</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
@@ -30,6 +30,14 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>SpriteKitWatchFace requires your location to use the Weather Complication.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>SpriteKitWatchFace requires your location to use the Weather Complication.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>SpriteKitWatchFace requires your location to use the Weather Complication.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>SpriteKitWatchFace requires your location to use the Weather Complication.</string>
 	<key>WKExtensionDelegateClassName</key>
 	<string>ExtensionDelegate</string>
 </dict>

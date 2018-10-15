@@ -60,6 +60,11 @@
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
+    if ([WCSession isSupported]) {
+        WCSession *session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
 }
 
 - (void)didDeactivate {
@@ -89,9 +94,105 @@ CGFloat totalRotation = 0;
 			scene.theme = 0;
 		
 		[scene refreshTheme];
-		
+        
 		totalRotation = 0;
 	}
+}
+
+- (void)session:(nonnull WCSession *)session didReceiveMessage:(nonnull NSDictionary<NSString *,id> *)message replyHandler:(nonnull void (^)(NSDictionary<NSString *,id> * __nonnull))replyHandler {
+    if ([message objectForKey:@"themeChange"]) {
+        NSArray *themes = @[@"ThemeHermesPink", @"ThemeHermesOrange", @"ThemeNavy", @"ThemeTidepod", @"ThemeBretonnia", @"ThemeNoir", @"ThemeContrast", @"ThemeVictoire", @"ThemeLiquid", @"ThemeAngler", @"ThemeSculley", @"ThemeKitty", @"ThemeDelay", @"ThemeDiesel", @"ThemeLuxe", @"ThemeSage", @"ThemeBondi", @"ThemeTangerine", @"ThemeStrawberry", @"ThemePawn", @"ThemeRoyal", @"ThemeMarques", @"ThemeVox", @"ThemeSummer", @"ThemeMAX"];
+        int key = [themes indexOfObject:[NSString stringWithFormat:@"Theme%@", [message objectForKey:@"themeChange"]]];
+        
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.theme = key;
+        
+        
+        [scene refreshTheme];
+    } else if ([message objectForKey:@"faceChange"]) {
+        NSArray *faceStyles = @[@"FaceStyleRound", @"FaceStyleRectangular", @"FaceStyleMAX"];
+        int key = [faceStyles indexOfObject:[NSString stringWithFormat:@"FaceStyle%@", [[message objectForKey:@"faceChange"] stringByReplacingOccurrencesOfString:@" Face" withString:@""]]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.faceStyle = key;
+        
+        
+        [scene refreshTheme];
+    }  else if ([message objectForKey:@"tickmarkChange"]) {
+        NSArray *faceStyles = @[@"TickmarkStyleAll", @"TickmarkStyleMajor", @"TickmarkStyleMinor", @"TickmarkStyleNone", @"TickmarkStyleMAX"];
+        int key = [faceStyles indexOfObject:[NSString stringWithFormat:@"TickmarkStyle%@", [message objectForKey:@"tickmarkChange"]]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.tickmarkStyle = key;
+        
+        
+        [scene refreshTheme];
+    }  else if ([message objectForKey:@"colorRegionChange"]) {
+        NSArray *faceStyles = @[@"ColorRegionStyleNone", @"ColorRegionStyleDynamicDuo", @"ColorRegionStyleHalf", @"ColorRegionStyleCircle", @"ColorRegionStyleRing", @"ColorRegionStyleMAX"];
+        int key = [faceStyles indexOfObject:[NSString stringWithFormat:@"ColorRegionStyle%@", [[message objectForKey:@"colorRegionChange"] stringByReplacingOccurrencesOfString:@" " withString:@""]]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.colorRegionStyle = key;
+        
+        
+        [scene refreshTheme];
+    } else if ([message objectForKey:@"numberStyleChange"]) {
+        NSArray *faceStyles = @[@"NumeralStyleAll", @"NumeralStyleCardinal", @"NumeralStyleNone", @"NumeralStyleMAX"];
+        int key = [faceStyles indexOfObject:[NSString stringWithFormat:@"NumeralStyle%@", [[message objectForKey:@"numberStyleChange"] stringByReplacingOccurrencesOfString:@" " withString:@""]]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        scene.numeralStyle = key;
+        
+        
+        [scene refreshTheme];
+    }  else if ([message objectForKey:@"numberTextChange"]) {
+        NSString *numberTextType = [NSString stringWithFormat:@"%@", [[[message objectForKey:@"numberTextChange"] stringByReplacingOccurrencesOfString:@" (I, II, III)" withString:@""] stringByReplacingOccurrencesOfString:@" (1, 2, 3)" withString:@""]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        if ([numberTextType  isEqual: @"Roman Numerals"]) {
+            scene.romanNumerals = YES;
+        } else {
+            scene.romanNumerals = NO;
+        }
+        
+        
+        [scene refreshTheme];
+    }  else if ([message objectForKey:@"complicationChange"]) {
+        NSString *complicationType = [NSString stringWithFormat:@"%@", [message objectForKey:@"complicationChange"]];
+        FaceScene *scene = (FaceScene *)self.scene.scene;
+        
+        if ([complicationType isEqual: @"All"]) {
+            scene.showWeather = YES;
+            scene.showDate = YES;
+            scene.showBattery = YES;
+        } else if ([complicationType isEqual:@"Battery"]) {
+            scene.showWeather = NO;
+            scene.showDate = NO;
+            scene.showBattery = YES;
+        } else if ([complicationType isEqual:@"Date"]) {
+            scene.showWeather = NO;
+            scene.showDate = YES;
+            scene.showBattery = NO;
+        } else if ([complicationType isEqual:@"Weather"]) {
+            scene.showWeather = YES;
+            scene.showDate = NO;
+            scene.showBattery = NO;
+        } else if ([complicationType isEqual:@"None"]) {
+            scene.showWeather = NO;
+            scene.showDate = NO;
+            scene.showBattery = NO;
+        } else {
+            scene.showWeather = NO;
+            scene.showDate = NO;
+            scene.showBattery = NO;
+        }
+        
+        
+        [scene refreshTheme];
+    } else {
+        
+    }
 }
 
 @end
