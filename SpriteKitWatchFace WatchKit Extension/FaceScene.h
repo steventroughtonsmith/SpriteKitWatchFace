@@ -127,8 +127,12 @@ typedef enum : NSUInteger {
 @property SKColor *alternateMinorMarkColor;
 @property SKColor *alternateTextColor;
 
+@property NSString *monogram;
+
 @property BOOL useBackgroundImageOverlay;
 @property BOOL useMasking;
+
+@property BOOL showLogo;
 
 @property CGSize faceSize;
 
