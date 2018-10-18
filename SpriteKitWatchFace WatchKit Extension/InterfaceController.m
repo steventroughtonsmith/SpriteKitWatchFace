@@ -36,7 +36,7 @@
 	
 	/* Using the 44mm Apple Watch as the base size, scale down to fit */
 	scene.camera.xScale = (184.0/currentDeviceSize.width);
-	scene.camera.yScale = (184.0/currentDeviceSize.width);
+        scene.camera.yScale = (224.0/currentDeviceSize.height);
 	
 	[self.scene presentScene:scene];
 }
