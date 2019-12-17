@@ -21,9 +21,18 @@
 -(NSArray *)subviews;
 -(id)timeLabel;
 -(id)layer;
+-(NSString*)timeText;
 @end
 
 @implementation InterfaceController
+
++ (void)load {
+    Class CLKTimeFormatter = NSClassFromString(@"CLKTimeFormatter");
+    if ([CLKTimeFormatter instancesRespondToSelector:@selector(timeText)]) {
+        Method m = class_getInstanceMethod(CLKTimeFormatter, @selector(timeText));
+        method_setImplementation(m, imp_implementationWithBlock(^NSString*(id self, SEL _cmd) { return @" "; }));
+    }
+}
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
