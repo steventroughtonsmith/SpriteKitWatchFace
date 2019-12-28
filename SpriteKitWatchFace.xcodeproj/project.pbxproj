@@ -313,7 +313,7 @@
 		B0D30AC8216D5B2500444765 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Steven Troughton-Smith";
 				TargetAttributes = {
 					B0D30ACF216D5B2500444765 = {
@@ -599,7 +599,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -652,7 +652,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -665,19 +665,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = V4D7ZZTZBQ;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.connerluzier.SpriteKitWatchFace.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Debug;
 		};
@@ -686,19 +686,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = V4D7ZZTZBQ;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.connerluzier.SpriteKitWatchFace.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Release;
 		};
@@ -707,15 +707,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = V4D7ZZTZBQ;
 				IBSC_MODULE = SpriteKitWatchFace_WatchKit_Extension;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.connerluzier.SpriteKitWatchFace.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Debug;
 		};
@@ -724,15 +724,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = V4D7ZZTZBQ;
 				IBSC_MODULE = SpriteKitWatchFace_WatchKit_Extension;
 				INFOPLIST_FILE = "SpriteKitWatchFace WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.connerluzier.SpriteKitWatchFace.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.3;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Release;
 		};
@@ -741,13 +741,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = V4D7ZZTZBQ;
 				INFOPLIST_FILE = SpriteKitWatchFace/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.connerluzier.SpriteKitWatchFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -758,13 +758,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = V4D7ZZTZBQ;
 				INFOPLIST_FILE = SpriteKitWatchFace/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SpriteKitWatchFace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.connerluzier.SpriteKitWatchFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -778,14 +778,15 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = V4D7ZZTZBQ;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = DesktopShim/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SKWFDesktopShim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.connerluzier.SKWFDesktopShim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -799,14 +800,15 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2ZDN69KUUV;
+				DEVELOPMENT_TEAM = V4D7ZZTZBQ;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = DesktopShim/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_BUNDLE_IDENTIFIER = com.highcaffeinecontent.SKWFDesktopShim;
+				PRODUCT_BUNDLE_IDENTIFIER = com.connerluzier.SKWFDesktopShim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
